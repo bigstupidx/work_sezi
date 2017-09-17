@@ -450,13 +450,24 @@ public class HomePanelScript : MonoBehaviour
     {
         JsonData json = JsonMapper.ToObject(response.message);
         int roomid = Int32.Parse(json["roomid"].ToString());
+        int type = Int32.Parse(json["type"].ToString());
         if (roomid > 0)
         {
-            GlobalDataScript.getInstance().reConnect = true;
-            onClickTwoRoom();
-            //loadPerfab("Prefab/sezi/Panel_ReEnterRoom");
-            //panelCreateDialog.GetComponent<PanelReEnterRoom>().setReconnectData(roomid,1);
-        }
+            if (type == 1)
+            {
+                GlobalDataScript.getInstance().reConnect = true;
+                onClickTwoRoom();
+            }
+            else
+            {
+                //房卡
+                GlobalDataScript.getInstance().reConnect = true;
+                RoomJoinVo roomJoinVo = new RoomJoinVo();
+                roomJoinVo.roomId = roomid;
+                string sendMsg = JsonMapper.ToJson(roomJoinVo);
+                CustomSocket.getInstance().sendMsg(new JoinRoomRequest(sendMsg));
+            }
+        }        
     }
 
     private RoomCreateVo sendVo;//创建房间的信息
