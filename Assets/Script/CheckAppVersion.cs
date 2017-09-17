@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 using System.IO;
+using AssemblyCSharp;
 
 public class CheckAppVersion : MonoBehaviour {
 	
@@ -18,8 +19,8 @@ public class CheckAppVersion : MonoBehaviour {
 	}
 
 	private void checkAppVersion(){
-        //StartCoroutine(LoadVersionTxt());
-        destoryPanel();
+        StartCoroutine(LoadVersionTxt());
+        //destoryPanel();
 	}
 
 	private void actionBytes(string url, string downLoadPathName, byte[] bytes){
@@ -39,7 +40,7 @@ public class CheckAppVersion : MonoBehaviour {
 	}
 
 	private IEnumerator LoadVersionTxt(){
-		WWW www = new WWW ("json/checkAppVersion.txt");
+		WWW www = new WWW (APIS.webUrl + "checkAppVersion.txt");
 		yield return www;
 		if (!string.IsNullOrEmpty(www.error)) {
 			yield return null;
@@ -47,7 +48,7 @@ public class CheckAppVersion : MonoBehaviour {
 		//0表示版本    1表示是否在审核	2表示审核的版本号
         string[] arr = www.text.Split(',');
 		if (arr [1].Equals ("APPCheck") && !arr [2].Equals (version_str)) {
-			GlobalDataScript.hideChargeUI = true;
+			//GlobalDataScript.hideChargeUI = true;
 			destoryPanel ();
 		} else {
 			if (!arr[0].Equals(version_str))

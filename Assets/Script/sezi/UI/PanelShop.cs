@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using LitJson;
+using AssemblyCSharp;
+
 public class PanelShop : MonoBehaviour {
 
     public GameObject ScrollViewCoin, ScrollViewZhuan;
@@ -46,7 +48,7 @@ public class PanelShop : MonoBehaviour {
 
     private IEnumerator loadCoinTxt()
     {
-        WWW www = new WWW("Json/Shop_BuyCoin.json");
+        WWW www = new WWW(APIS.webUrl + "Shop_BuyCoin.json");
         yield return www;
         if (!string.IsNullOrEmpty(www.error))
         {
@@ -58,7 +60,7 @@ public class PanelShop : MonoBehaviour {
 
     private IEnumerator loadZuanTxt()
     {
-        WWW www = new WWW("Json/Shop_zhuanshi.json");
+        WWW www = new WWW(APIS.webUrl + "Shop_zhuanshi.json");
         yield return www;
         if (!string.IsNullOrEmpty(www.error))
         {
