@@ -185,9 +185,11 @@ public class WechatOperateScript : MonoBehaviour {
         customizeShareParams.SetTitle(title);
         customizeShareParams.SetText(str);
         //配置下载地址 
-       // customizeShareParams.SetUrl("https://fir.im/ccainiu");
+        //customizeShareParams.SetUrl("https://fir.im/ccainiu");
+        customizeShareParams.SetUrl("https://fir.im/szwszw");
         //配置分享logo       
-        customizeShareParams.SetImageUrl("http://wx.qlogo.cn/mmopen/mz3Mk129TGDsZL3qND93cKC2JrXtKer8wdwHSnA1CnUaVZ6rLWoMTeFABMwv132BVEeWvPPpCMQBKt33k7vJBMwFnecrjwlia/0");
+       // customizeShareParams.SetImageUrl("http://wx.qlogo.cn/mmopen/mz3Mk129TGDsZL3qND93cKC2JrXtKer8wdwHSnA1CnUaVZ6rLWoMTeFABMwv132BVEeWvPPpCMQBKt33k7vJBMwFnecrjwlia/0");
+        customizeShareParams.SetImageUrl(APIS.webUrl + "shaiziwang.png");
         customizeShareParams.SetShareType(ContentType.Webpage);
         customizeShareParams.SetObjectID("");
         shareSdk.ShowShareContentEditor(PlatformType.WeChat, customizeShareParams);
@@ -204,8 +206,10 @@ public class WechatOperateScript : MonoBehaviour {
         customizeShareParams.SetText(str);
         //配置下载地址 
         //customizeShareParams.SetUrl("https://fir.im/ccainiu");
-        //配置分享logo       
-        customizeShareParams.SetImageUrl("http://wx.qlogo.cn/mmopen/mz3Mk129TGDsZL3qND93cKC2JrXtKer8wdwHSnA1CnUaVZ6rLWoMTeFABMwv132BVEeWvPPpCMQBKt33k7vJBMwFnecrjwlia/0");
+        customizeShareParams.SetUrl("https://fir.im/szwszw");
+        //配置分享logo  
+        customizeShareParams.SetImageUrl(APIS.webUrl + "shaiziwang.png");
+        //customizeShareParams.SetImageUrl("http://wx.qlogo.cn/mmopen/mz3Mk129TGDsZL3qND93cKC2JrXtKer8wdwHSnA1CnUaVZ6rLWoMTeFABMwv132BVEeWvPPpCMQBKt33k7vJBMwFnecrjwlia/0");
         customizeShareParams.SetShareType(ContentType.Image);
         customizeShareParams.SetObjectID("");
         shareSdk.ShowShareContentEditor(PlatformType.WeChatMoments, customizeShareParams);
@@ -213,7 +217,7 @@ public class WechatOperateScript : MonoBehaviour {
     //ws 分享房间号
     public void inviteFriend()
     {
-        if (GlobalDataScript.roomJoinResponseData.roomId != null)
+        if (GlobalDataScript.roomVo.roomId != null)
         {
             RoomCreateVo roomvo = GlobalDataScript.roomVo;
             GlobalDataScript.totalTimes = roomvo.roundNumber;
@@ -221,16 +225,18 @@ public class WechatOperateScript : MonoBehaviour {
             string str = "骰子王 不服来战！ ";
 
 
-            string title = "  我在骰子王  " + GlobalDataScript.roomJoinResponseData.roomId + "房间，快来一起玩吧";
+            string title = "  我在骰子王  " + GlobalDataScript.roomVo.roomId + "房间，快来一起玩吧";
             ShareContent customizeShareParams = new ShareContent();
             customizeShareParams.SetTitle(title);
             customizeShareParams.SetText(str);
 
             //配置下载地址 
-            customizeShareParams.SetUrl("https://fir.im/ccainiu");
+            //customizeShareParams.SetUrl("https://fir.im/ccainiu");
+            customizeShareParams.SetUrl("https://fir.im/szwszw");
             //配置分享logo
             // customizeShareParams.SetImageUrl("http://112.74.52.173/web/images/logo.jpg");
-            customizeShareParams.SetImageUrl("http://wx.qlogo.cn/mmopen/mz3Mk129TGDsZL3qND93cKC2JrXtKer8wdwHSnA1CnUaVZ6rLWoMTeFABMwv132BVEeWvPPpCMQBKt33k7vJBMwFnecrjwlia/0");
+            customizeShareParams.SetImageUrl(APIS.webUrl + "shaiziwang.png");
+            //customizeShareParams.SetImageUrl("http://wx.qlogo.cn/mmopen/mz3Mk129TGDsZL3qND93cKC2JrXtKer8wdwHSnA1CnUaVZ6rLWoMTeFABMwv132BVEeWvPPpCMQBKt33k7vJBMwFnecrjwlia/0");
             customizeShareParams.SetShareType(ContentType.Webpage);
             customizeShareParams.SetObjectID("");
             shareSdk.ShowShareContentEditor(PlatformType.WeChat, customizeShareParams);
