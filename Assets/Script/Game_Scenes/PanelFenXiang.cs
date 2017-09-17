@@ -17,4 +17,15 @@ public class PanelFenXiang : MonoBehaviour {
     {
         Destroy(gameObject);
     }
+
+    public void ShareHaoyou()
+    {
+        GlobalDataScript.getInstance().wechatOperate.FenxiangFriend();
+    }
+    public void SharePengyouqian()
+    {
+        GlobalDataScript.getInstance().wechatOperate.shareAchievement();
+    }
+
+
 }

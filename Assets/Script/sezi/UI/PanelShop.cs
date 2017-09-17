@@ -9,38 +9,71 @@ public class PanelShop : MonoBehaviour {
     public GameObject contentCoin, contentZhuan;
     public Sprite[] spritelist;
     public Sprite[] coinspritelist;
+
+    private static string zuanData = "";
+    private static string coinData = "";
+
     // Use this for initialization
     void Start()
     {
         JsonZhuan();
         JsonCoin();
     }
-    private void JsonZhuan() 
+    private void JsonZhuan()
     {
-        TextAsset textasset = (TextAsset)Resources.Load("Json/Shop_zhuanshi");
-        string jsonTest = textasset.text;
-        print(jsonTest);
-        Shop_Zhuan json = JsonMapper.ToObject<Shop_Zhuan>(jsonTest);
-        for (int i = 0; i < json.array.Length; i++)
+        if (zuanData.Equals("") || zuanData == null)
         {
-            string id = json.array[i].id;
-            int song = json.array[i].song;
-            int num = json.array[i].num;
-            int price = json.array[i].price;
-            int hot = json.array[i].hot;
-            GameObject clone = Instantiate(Resources.Load("Prefab/sezi/BuyzuanItem")) as GameObject;
-            clone.transform.SetParent(contentZhuan.transform);
-            clone.transform.localScale = Vector3.one;
-            clone.GetComponent<SeZiBuyZhuan>().SetUI(int.Parse(id), song, num, price, hot);
-            clone.GetComponent<SeZiBuyZhuan>().image.sprite = spritelist[i]; //具体的钻石图标赋值
-        } 
+            StartCoroutine(loadZuanTxt());
+        }
+        else
+        {
+            addZuanDataToUI();
+        }
+        
     }
     private void JsonCoin()
     {
-        TextAsset textasset = (TextAsset)Resources.Load("Json/Shop_BuyCoin");
-        string jsonTest = textasset.text;
-        print(jsonTest);
-        Shop_Zhuan json = JsonMapper.ToObject<Shop_Zhuan>(jsonTest);
+
+        if (coinData.Equals("") || coinData == null)
+        {
+            StartCoroutine(loadCoinTxt());
+        }
+        else
+        {
+            addCoinDataToUI();
+        }
+    }
+
+    private IEnumerator loadCoinTxt()
+    {
+        WWW www = new WWW("Json/Shop_BuyCoin.json");
+        yield return www;
+        if (!string.IsNullOrEmpty(www.error))
+        {
+            yield return null;
+        }
+        zuanData = www.text;
+        addCoinDataToUI();
+    }
+
+    private IEnumerator loadZuanTxt()
+    {
+        WWW www = new WWW("Json/Shop_zhuanshi.json");
+        yield return www;
+        if (!string.IsNullOrEmpty(www.error))
+        {
+            yield return null;
+        }
+        zuanData = www.text;
+        addZuanDataToUI();
+    }
+
+    private void addCoinDataToUI()
+    {
+        //TextAsset textasset = (TextAsset)Resources.Load("Json/Shop_BuyCoin");
+        //string jsonTest = textasset.text;
+        //print(jsonTest);
+        Shop_Zhuan json = JsonMapper.ToObject<Shop_Zhuan>(zuanData);
         for (int i = 0; i < json.array.Length; i++)
         {
             string id = json.array[i].id;
@@ -53,6 +86,27 @@ public class PanelShop : MonoBehaviour {
             clone.transform.localScale = Vector3.one;
             clone.GetComponent<SeZiBuyZhuan>().SetUICoin(int.Parse(id), song, num, price, hot);
             clone.GetComponent<SeZiBuyZhuan>().image.sprite = coinspritelist[i]; //具体的钻石图标赋值
+        }
+    }
+
+    private void addZuanDataToUI()
+    {
+        //TextAsset textasset = (TextAsset)Resources.Load("Json/Shop_zhuanshi");
+        //string jsonTest = textasset.text;
+        //print(jsonTest);
+        Shop_Zhuan json = JsonMapper.ToObject<Shop_Zhuan>(zuanData);
+        for (int i = 0; i < json.array.Length; i++)
+        {
+            string id = json.array[i].id;
+            int song = json.array[i].song;
+            int num = json.array[i].num;
+            int price = json.array[i].price;
+            int hot = json.array[i].hot;
+            GameObject clone = Instantiate(Resources.Load("Prefab/sezi/BuyzuanItem")) as GameObject;
+            clone.transform.SetParent(contentZhuan.transform);
+            clone.transform.localScale = Vector3.one;
+            clone.GetComponent<SeZiBuyZhuan>().SetUI(int.Parse(id), song, num, price, hot);
+            clone.GetComponent<SeZiBuyZhuan>().image.sprite = spritelist[i]; //具体的钻石图标赋值
         }
     }
 

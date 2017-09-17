@@ -176,77 +176,70 @@ public class WechatOperateScript : MonoBehaviour {
 		shareAchievement(platformType);
 	}
 
+    //ws分享好友
+    public void FenxiangFriend()
+    {
+        string str = "骰子王 等你来战！ ";
+        string title = "  大儒网络  ";
+        ShareContent customizeShareParams = new ShareContent();
+        customizeShareParams.SetTitle(title);
+        customizeShareParams.SetText(str);
+        //配置下载地址 
+       // customizeShareParams.SetUrl("https://fir.im/ccainiu");
+        //配置分享logo       
+        customizeShareParams.SetImageUrl("http://wx.qlogo.cn/mmopen/mz3Mk129TGDsZL3qND93cKC2JrXtKer8wdwHSnA1CnUaVZ6rLWoMTeFABMwv132BVEeWvPPpCMQBKt33k7vJBMwFnecrjwlia/0");
+        customizeShareParams.SetShareType(ContentType.Webpage);
+        customizeShareParams.SetObjectID("");
+        shareSdk.ShowShareContentEditor(PlatformType.WeChat, customizeShareParams);
+        MyDebug.Log("分享微信好友已经启用");
+    }
+    //分享到朋友圈
+    public void shareAchievement()
+    {
+        string str = "骰子王 一起来战！ ";
+        string title = "  大儒网络  ";
+
+        ShareContent customizeShareParams = new ShareContent();
+        customizeShareParams.SetTitle(title);
+        customizeShareParams.SetText(str);
+        //配置下载地址 
+        //customizeShareParams.SetUrl("https://fir.im/ccainiu");
+        //配置分享logo       
+        customizeShareParams.SetImageUrl("http://wx.qlogo.cn/mmopen/mz3Mk129TGDsZL3qND93cKC2JrXtKer8wdwHSnA1CnUaVZ6rLWoMTeFABMwv132BVEeWvPPpCMQBKt33k7vJBMwFnecrjwlia/0");
+        customizeShareParams.SetShareType(ContentType.Image);
+        customizeShareParams.SetObjectID("");
+        shareSdk.ShowShareContentEditor(PlatformType.WeChatMoments, customizeShareParams);
+    }
+    //ws 分享房间号
+    public void inviteFriend()
+    {
+        if (GlobalDataScript.roomJoinResponseData.roomId != null)
+        {
+            RoomCreateVo roomvo = GlobalDataScript.roomVo;
+            GlobalDataScript.totalTimes = roomvo.roundNumber;
+            GlobalDataScript.surplusTimes = roomvo.roundNumber;
+            string str = "骰子王 不服来战！ ";
 
 
+            string title = "  我在骰子王  " + GlobalDataScript.roomJoinResponseData.roomId + "房间，快来一起玩吧";
+            ShareContent customizeShareParams = new ShareContent();
+            customizeShareParams.SetTitle(title);
+            customizeShareParams.SetText(str);
 
-	public void inviteFriend(){
-		if(GlobalDataScript.roomVo != null){
-			RoomCreateVo roomvo = GlobalDataScript.roomVo;
-			GlobalDataScript.totalTimes = roomvo.roundNumber;
-			GlobalDataScript.surplusTimes = roomvo.roundNumber;
-			string str="" ;
-
-			if (roomvo.hong) {
-				str += "红中麻将,";
-			} else {
-				if (roomvo.roomType == 1) {
-					str += "转转麻将,";
-				} else if (roomvo.roomType == 2){
-					str += "划水麻将,";
-                }
-                else if (roomvo.roomType == 3)
-                {
-                    str += "长沙麻将,";
-                }
-                else if (roomvo.roomType == 4)
-                {
-                    str += "广东麻将,";
-                }
-                else if (roomvo.roomType==5)
-                {
-                     str += "乐清麻将,";
-                }
-
-			}
-
-			str += "大战"+roomvo.roundNumber+"局,";
-			if (roomvo.ziMo == 1) {
-				str += "只能自摸,";
-			} else {
-				str += "可抢杠胡,";
-			}
-			if (roomvo.addWordCard) {
-				str += "有风牌,";
-			}
-
-			if (roomvo.xiaYu > 0) {
-				str += "下鱼"+roomvo.xiaYu+"条,";
-			}
-
-			if (roomvo.ma > 0) {
-				str += "抓"+roomvo.ma+"个码,";
-			}
-			if (roomvo.magnification > 0) {
-				str += "倍率"+roomvo.magnification;
-			}
-			str += "有胆，你就来！";
-
-			string title = "喜来乐    "+ "房间号："+roomvo.roomId;
-			ShareContent customizeShareParams = new ShareContent();
-			customizeShareParams.SetTitle(title);
-			customizeShareParams.SetText (str);
             //配置下载地址 
-            customizeShareParams.SetUrl("http://118.178.57.189:8080/web/images/downLoad/index.html");
+            customizeShareParams.SetUrl("https://fir.im/ccainiu");
             //配置分享logo
-            customizeShareParams.SetImageUrl("http://118.178.57.189:8080/web/images/logo.jpg");
-			customizeShareParams.SetShareType(ContentType.Webpage);
-			customizeShareParams.SetObjectID("");
-			shareSdk.ShowShareContentEditor(PlatformType.WeChat, customizeShareParams);
-		}
-	}
+            // customizeShareParams.SetImageUrl("http://112.74.52.173/web/images/logo.jpg");
+            customizeShareParams.SetImageUrl("http://wx.qlogo.cn/mmopen/mz3Mk129TGDsZL3qND93cKC2JrXtKer8wdwHSnA1CnUaVZ6rLWoMTeFABMwv132BVEeWvPPpCMQBKt33k7vJBMwFnecrjwlia/0");
+            customizeShareParams.SetShareType(ContentType.Webpage);
+            customizeShareParams.SetObjectID("");
+            shareSdk.ShowShareContentEditor(PlatformType.WeChat, customizeShareParams);
+            MyDebug.Log("邀请微信好友已经启用");
+        }
+    }
 
 
-	private void testLogin(){
+    private void testLogin(){
 		CustomSocket.getInstance().sendMsg(new LoginRequest(null));
 	}
 

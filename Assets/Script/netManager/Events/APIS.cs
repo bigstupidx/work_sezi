@@ -18,6 +18,7 @@ namespace AssemblyCSharp
 
     //   public const string socketUrl = "101.201.43.166";//外网测试服务器
 		public const string socketUrl = "112.74.52.173";//自有外网测试服务器
+        public const string webUrl = "112.74.52.173/";//自带web服务器
         //public const string socketUrl = "127.0.0.1";//自有外网测试服务器
         public const string PIC_PATH = "http://101.200.179.62:8080/";
 	//	public const string apkDownLoadurl="192.168.0.111/aaa/weipai.apk";

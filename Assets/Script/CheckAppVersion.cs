@@ -39,7 +39,7 @@ public class CheckAppVersion : MonoBehaviour {
 	}
 
 	private IEnumerator LoadVersionTxt(){
-		WWW www = new WWW ("http://www.baidu.com");
+		WWW www = new WWW ("json/checkAppVersion.txt");
 		yield return www;
 		if (!string.IsNullOrEmpty(www.error)) {
 			yield return null;

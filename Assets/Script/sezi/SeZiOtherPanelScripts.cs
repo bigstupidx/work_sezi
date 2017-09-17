@@ -181,8 +181,8 @@ public class SeZiOtherPanelScripts : MonoBehaviour {
 
 	//微信邀请
 	public void onInviteByWX() {
-
-	}
+        GlobalDataScript.getInstance().wechatOperate.inviteFriend();
+    }
 
     public void onVoiceClick() {
 

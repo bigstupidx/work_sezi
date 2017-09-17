@@ -75,6 +75,9 @@ public class SeZiLogicScript : MonoBehaviour {
 	//public GameObject quickSearchUI;	//显示快速查询
 
     public GameObject glodJiabeiObj;    //2倍底住/5倍抢开
+    public GameObject inviteButton;//邀请好友的按钮
+
+
     private double flyTimes;
 
     private float timer = 0;
@@ -180,9 +183,11 @@ public class SeZiLogicScript : MonoBehaviour {
 
             gameStart_button.SetActive(false);
             roomRoundAndMarkObj.SetActive(false);
-
+            inviteButton.SetActive(false);
         }
         onReadyClick();
+
+        
 
         //TipsManagerScript.getInstance().setTips2("");
     }
@@ -737,6 +742,9 @@ public class SeZiLogicScript : MonoBehaviour {
 	public void startGame(ClientResponse response)
 	{
         print ("startGame====================");
+
+        inviteButton.SetActive(false);
+
         GlobalDataScript.getInstance().reConnect = false;
         gameEndHandler();
         overResultObj.SetActive(false);
