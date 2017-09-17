@@ -31,13 +31,14 @@ public class SeZiBuyZhuan : MonoBehaviour {
         song.text = _song.ToString();
         num.text = _num+"万";
         price.text = _price.ToString();
+        hot.gameObject.SetActive(false);
         if (_hot==0)
         {
             hot.gameObject.SetActive(false);
         }
         else
         {
-            hot.gameObject.SetActive(true);
+            //hot.gameObject.SetActive(true);
         }
         isCoin = false;
     }
@@ -48,13 +49,14 @@ public class SeZiBuyZhuan : MonoBehaviour {
         song.text = _song+"万金豆";
         num.text = _num+"" ;
         price.text = _price + "万";
+        hot.gameObject.SetActive(false);
         if (_hot == 0)
         {
             hot.gameObject.SetActive(false);
         }
         else
         {
-            hot.gameObject.SetActive(true);
+           // hot.gameObject.SetActive(true);
         }
         isCoin = true;
     }

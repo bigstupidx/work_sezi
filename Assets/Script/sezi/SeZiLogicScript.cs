@@ -500,6 +500,11 @@ public class SeZiLogicScript : MonoBehaviour {
             roomRoundNumber.text = (GlobalDataScript.totalTimes - GlobalDataScript.surplusTimes) + "/" + GlobalDataScript.totalTimes;//刷新剩余圈数
         }
 
+        if ((GlobalDataScript.roomVo.createrId == GlobalDataScript.loginResponseData.account.uuid) && !GlobalDataScript.roomVo.isGoldRoom)
+        {
+            gameStart_button.SetActive(true);
+        }
+
         isFirstBetResponse = false;
         GlobalDataScript.isOverByPlayer = false;
 
@@ -1200,6 +1205,12 @@ public class SeZiLogicScript : MonoBehaviour {
 		int pai3 = int.Parse(json ["pai3"].ToString ());
 		int pai4 = int.Parse(json ["pai4"].ToString ());
 		int pai5 = int.Parse(json ["pai5"].ToString ());
+        if (pai1 == 0 || pai2 == 0 || pai3 == 0 || pai4 == 0 || pai5 == 0)
+        {
+            return;
+        }
+
+        gameStart_button.SetActive(false);
 
         GlobalDataScript.myPointsArr = new int[]{pai1,pai2,pai3,pai4,pai5};
         playerItems[0].showPoint(GlobalDataScript.myPointsArr);
@@ -1678,7 +1689,7 @@ public class SeZiLogicScript : MonoBehaviour {
                     CustomSocket.getInstance().sendMsg(new SZReShockRequest());
                 }
 				if (GlobalDataScript.getInstance().zhendong) {
-					//Handheld.Vibrate(); //手机的震动效果  
+					Handheld.Vibrate(); //手机的震动效果  
 				}
             }
         }

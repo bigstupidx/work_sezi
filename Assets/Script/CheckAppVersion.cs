@@ -15,7 +15,7 @@ public class CheckAppVersion : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Invoke("checkAppVersion", 2); 		
+		Invoke("checkAppVersion", 1); 		
 	}
 
 	private void checkAppVersion(){
@@ -48,8 +48,9 @@ public class CheckAppVersion : MonoBehaviour {
 		//0表示版本    1表示是否在审核	2表示审核的版本号
         string[] arr = www.text.Split(',');
 		if (arr [1].Equals ("APPCheck") && !arr [2].Equals (version_str)) {
-			//GlobalDataScript.hideChargeUI = true;
-			destoryPanel ();
+            //GlobalDataScript.hideChargeUI = true;
+            slider_p.value = 1;
+            Invoke("destoryPanel", 1f);
 		} else {
 			if (!arr[0].Equals(version_str))
 			{
@@ -75,6 +76,7 @@ public class CheckAppVersion : MonoBehaviour {
 
     private void doLoadApk()
     {
+        slider_p.value = 0;
         string fileName = Application.persistentDataPath + "/SnapLingo.v6.7.1(671)-publish.apk";
         string downURL = "http://img.snaplingo.com.cn/download/SnapLingo.v6.7.1(671)-publish.apk";
         StartCoroutine(DownloadFile(downURL, fileName, actionBytes, percentAciton, endAciton));

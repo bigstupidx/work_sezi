@@ -443,7 +443,7 @@ public class PlayerItemScript : MonoBehaviour
     //显示盈利数
     public void showWinNum(int gold)
     {
-        winGold_txt.text = "获利 " + gold.ToString();
+        winGold_txt.text = "+ " + gold.ToString();
     }
 
     //播放摇色子的动画
