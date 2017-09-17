@@ -1,0 +1,52 @@
+{
+    "array": [
+        {
+            "id": "1",
+            "image": "zhuan1",
+            "song": 0,
+            "num": 30,
+            "price": 30,
+            "hot": 0
+        },
+        {
+            "id": "2",
+            "image": "zhuan2",
+            "song": 5,
+            "num": 60,
+            "price": 63,
+            "hot": 1
+        },
+        {
+            "id": "3",
+            "image": "zhuan3",
+            "song": 10,
+            "num": 100,
+            "price": 110,
+            "hot": 1
+        },
+        {
+            "id": "4",
+            "image": "zhuan4",
+            "song": 15,
+            "num": 200,
+            "price": 230,
+            "hot": 1
+        },
+        {
+            "id": "5",
+            "image": "zhuan5",
+            "song": 20,
+            "num": 500,
+            "price": 600,
+            "hot": 1
+        },
+        {
+            "id": "6",
+            "image": "zhuan6",
+            "song": 25,
+            "num": 1000,
+            "price": 1250,
+            "hot": 1
+        }
+    ]
+}
