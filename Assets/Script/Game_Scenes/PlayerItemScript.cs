@@ -318,6 +318,8 @@ public class PlayerItemScript : MonoBehaviour
 		string sendmsgstr1 = JsonMapper.ToJson(chatVo);
 		CustomSocket.getInstance().sendMsg(new SZRoomChatRequest(sendmsgstr1));
 
+		ke_img.gameObject.SetActive (false);
+
 		//开骰子
 		GlobalDataScript.sendedOpenSZRequest = true;
 		CustomSocket.getInstance().sendMsg(new SEOpenPlayerRequest());
@@ -499,6 +501,14 @@ public class PlayerItemScript : MonoBehaviour
         {
             lianShen_img.gameObject.SetActive(false);
         }
+		showTime = 0;
+		showChatTime = 0;
+		if (chatPaoPao) {
+			chatPaoPao.SetActive (false);
+		}
+		if (chatAction) {
+			chatAction.SetActive (false);
+		}
     }
 
 	//获取uuid

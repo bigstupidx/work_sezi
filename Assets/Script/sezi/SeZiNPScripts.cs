@@ -210,7 +210,12 @@ public class SeZiNPScripts : MonoBehaviour {
         canShowNumAndPoint = true;
         kuang_img.gameObject.SetActive(true);
 		updateNumPosAndPoint(playerCallNum,playerCallPoint);
-
+		if (chatBQObj) {
+			chatBQObj.SetActive (false);
+		}
+		if (chatNormal) {
+			chatNormal.SetActive (false);
+		}
 		//changeButtonState (false);
     }
 

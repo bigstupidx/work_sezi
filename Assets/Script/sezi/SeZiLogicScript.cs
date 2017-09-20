@@ -891,11 +891,11 @@ public class SeZiLogicScript : MonoBehaviour {
 
             for (int m = 0; m < pointArr.Length; m++)
             {
-                if (pointArr[i] == little_over_openpoint)
+                if (pointArr[m] == little_over_openpoint)
                 {
                     totalNumPoints++;
                 }
-                if (!GlobalDataScript.isCallOne && pointArr[i] == 1)
+                if (!GlobalDataScript.isCallOne && pointArr[m] == 1)
                 {
                     totalNumPoints++;
                 }
@@ -1708,28 +1708,36 @@ public class SeZiLogicScript : MonoBehaviour {
                 dichiAndDizhuObj.SetActive(false);
 
                 //显示输赢图片
-                if (GlobalDataScript.roomVo.isGoldRoom)
-                {
-                    resultImg.gameObject.SetActive(true);
-                    if (little_over_my_win == 1)
-                    {
-                        resultImg.sprite = Resources.Load("sizi/shenli", typeof(Sprite)) as Sprite;
-                    }
-                    else if (little_over_my_win == 0)
-                    {
-                        resultImg.sprite = Resources.Load("sizi/shibai", typeof(Sprite)) as Sprite;
-                    }
-                    //飞金币
-                    hiddenFlyImg.sprite = Resources.Load("sizi/goldpk_doudou", typeof(Sprite)) as Sprite;
-                }
-                else
-                {
-                    hiddenFlyImg.sprite = Resources.Load("sizi/fangkapk_flyicon", typeof(Sprite)) as Sprite;
-                    resultImg.gameObject.SetActive(false);
-                }
 
+				resultImg.gameObject.SetActive(true);
+				if (little_over_my_win == 1)
+				{
+					if (GlobalDataScript.roomVo.isGoldRoom)
+					{
+						hiddenFlyImg.sprite = Resources.Load("sizi/goldpk_doudou", typeof(Sprite)) as Sprite;
+						resultImg.sprite = Resources.Load("sizi/shenli", typeof(Sprite)) as Sprite;
+					}
+					else
+					{
+						hiddenFlyImg.sprite = Resources.Load("sizi/fangkapk_flyicon", typeof(Sprite)) as Sprite;
+					}
+				}
+				else if (little_over_my_win == 0)
+				{
+					if (GlobalDataScript.roomVo.isGoldRoom)
+					{
+						hiddenFlyImg.sprite = Resources.Load("sizi/goldpk_doudou", typeof(Sprite)) as Sprite;
+						resultImg.sprite = Resources.Load("sizi/shenli", typeof(Sprite)) as Sprite;
+					}
+					else
+					{
+						resultImg.sprite = Resources.Load("sizi/shibai", typeof(Sprite)) as Sprite;
+						hiddenFlyImg.sprite = Resources.Load("sizi/fangkapk_flyicon", typeof(Sprite)) as Sprite;
+					}
 
-                showResultImgTime = 100;
+				}
+
+                showResultImgTime = 200;
                 little_over_game = false;
                 
                 GameObject needCloneObj = GameObject.Instantiate(hiddenFlyImg.gameObject);

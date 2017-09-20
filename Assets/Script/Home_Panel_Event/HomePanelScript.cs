@@ -480,6 +480,13 @@ public class HomePanelScript : MonoBehaviour
 
         SoundCtrl.getInstance().StopaudioS();
 
+		if (panelCreateDialog != null) {
+			EnterRoomScript sc = panelCreateDialog.GetComponent<EnterRoomScript> ();
+			if (sc != null) {
+				sc.closeDialog ();
+			}
+		}
+
         //RoomCreateResponseVo responseVO = JsonMapper.ToObject<RoomCreateResponseVo> (response.message);
         if (sendVo == null)
         {

@@ -41,11 +41,8 @@ public class VoteScript : MonoBehaviour {
 				isStop = true;
 				//UpateTimeReStart();
 			}
-			timerText.text = Math.Floor(timer) + "";
+			timerText.text = "思考时间还剩余"+Math.Floor(timer)+"秒";
 		}
-
-
-
 	}
 
 	private void addListener(){
