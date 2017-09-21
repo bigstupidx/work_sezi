@@ -338,6 +338,10 @@ public class PlayerItemScript : MonoBehaviour
     {
         if (value != null)
         {
+            if (offlineImage)
+            {
+                offlineImage.gameObject.SetActive(false);
+            }
             avatarvo = value;
             if (!GlobalDataScript.roomVo.isGoldRoom)
             {
