@@ -299,7 +299,10 @@ public class SeZiLogicScript : MonoBehaviour {
 		//CommonEvent.getInstance().closeGamePanel += exitOrDissoliveRoom;
 		SocketEventHandle.getInstance().micInputNotice += micInputNotice;
 
-	}
+        SocketEventHandle.getInstance().offlineNotice += offlineNotice;
+        SocketEventHandle.getInstance().onlineNotice += onlineNotice;
+
+    }
 
 	//动画结束然后变量叫点按钮
 	public void updateCallPointButton(){
@@ -1306,19 +1309,6 @@ public class SeZiLogicScript : MonoBehaviour {
         int index = getIndex(uuid);
         //string dirstr = getDirection(index);
         playerItems[index].GetComponent<PlayerItemScript>().setPlayerOffline();
-
-        //申请解散房间过程中，有人掉线，直接不能解散房间
-        if (GlobalDataScript.isonApplayExitRoomstatus)
-        {
-            if (dissoDialog != null)
-            {
-                dissoDialog.GetComponent<VoteScript>().removeListener();
-                Destroy(dissoDialog.GetComponent<VoteScript>());
-                Destroy(dissoDialog);
-            }
-            TipsManagerScript.getInstance().setTips("由于" + avatarList[index].account.nickname + "离线，系统不能解散房间。");
-
-        }
     }
 
 	public void micInputNotice(ClientResponse response)

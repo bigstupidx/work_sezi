@@ -537,12 +537,6 @@ public class PlayerItemScript : MonoBehaviour
 		Destroy (chatPaoPao);
     }
 
-    /**设置游戏玩家离线**/
-    public void setPlayerOffline()
-    {
-        offlineImage.transform.gameObject.SetActive(true);
-    }
-
 	//是不是准备了，处理一些Image
 	public void setIsReady(bool value) {
 		isShunZi = isBaoZi = false;
@@ -605,11 +599,17 @@ public class PlayerItemScript : MonoBehaviour
     /**设置游戏玩家上线**/
     public void setPlayerOnline()
     {
-       offlineImage.transform.gameObject.SetActive(false);
+       offlineImage.gameObject.SetActive(false);
     }
 
-	//显示聊天
-	public void showChatMessage(int msgType,string msgContent)
+    /**设置游戏玩家离线**/
+    public void setPlayerOffline()
+    {
+        offlineImage.gameObject.SetActive(true);
+    }
+
+    //显示聊天
+    public void showChatMessage(int msgType,string msgContent)
     {
         
 		string newContent = msgContent;

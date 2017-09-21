@@ -269,6 +269,7 @@ namespace AssemblyCSharp
 				}
 				break;
 			case APIS.headRESPONSE:
+                    //print("headRESPONSE");
 				break;
 			case APIS.Disspose_Room_Response:
 				if (dissoliveRoomResponse != null) {
