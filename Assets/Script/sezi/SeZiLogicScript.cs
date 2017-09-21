@@ -865,6 +865,8 @@ public class SeZiLogicScript : MonoBehaviour {
             vo.playerIndex = getIndex(vo.id);
             littleEndPlayerArr.Add(vo);
 
+            playerItems[vo.playerIndex].updateScore(vo.totolscore);
+
             if (vo.score < 0)
             {
                 losePlayerIdsArr.Add(vo.playerIndex);

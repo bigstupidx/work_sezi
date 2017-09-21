@@ -334,6 +334,14 @@ public class PlayerItemScript : MonoBehaviour
 		}
 	}
 
+    public void updateScore(int totalScore)
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = totalScore + "";
+        }
+    }
+
     public void setAvatarVo(AvatarVO value)
     {
         if (value != null)
