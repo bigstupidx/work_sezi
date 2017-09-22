@@ -54,7 +54,7 @@ public class WechatOperateScript : MonoBehaviour {
 
          Debug.Log("ranger getUserInforCallback Start");
         //这个地方log下 打印到屏幕上，然后打包apk  看点了微信以后能不能走到这
-		TipsManagerScript.getInstance ().setTips ("获取个人信息成功");
+		//TipsManagerScript.getInstance ().setTips ("获取个人信息成功");
 
 		if (data != null) {
 			MyDebug.Log (data.toJson ());
@@ -106,7 +106,7 @@ public class WechatOperateScript : MonoBehaviour {
 	 */ 
 	public void onShareCallBack(int reqID,ResponseState state,PlatformType type,Hashtable result){
 		if (state == ResponseState.Success) {
-			TipsManagerScript.getInstance ().setTips ("分享成功");
+			//TipsManagerScript.getInstance ().setTips ("分享成功");
 
 		} else if(state == ResponseState.Fail){
 			MyDebug.Log ("shar fail :" + result ["error_msg"]);
@@ -186,7 +186,7 @@ public class WechatOperateScript : MonoBehaviour {
         customizeShareParams.SetText(str);
         //配置下载地址 
         //customizeShareParams.SetUrl("https://fir.im/ccainiu");
-        customizeShareParams.SetUrl("https://fir.im/szwszw");
+        customizeShareParams.SetUrl("https://fir.im/seziwang");
         //配置分享logo       
        // customizeShareParams.SetImageUrl("http://wx.qlogo.cn/mmopen/mz3Mk129TGDsZL3qND93cKC2JrXtKer8wdwHSnA1CnUaVZ6rLWoMTeFABMwv132BVEeWvPPpCMQBKt33k7vJBMwFnecrjwlia/0");
         customizeShareParams.SetImageUrl(APIS.webUrl + "shaiziwang.png");
@@ -206,7 +206,7 @@ public class WechatOperateScript : MonoBehaviour {
         customizeShareParams.SetText(str);
         //配置下载地址 
         //customizeShareParams.SetUrl("https://fir.im/ccainiu");
-        customizeShareParams.SetUrl("https://fir.im/szwszw");
+        customizeShareParams.SetUrl("https://fir.im/seziwang");
         //配置分享logo  
         customizeShareParams.SetImageUrl(APIS.webUrl + "shaiziwang.png");
         //customizeShareParams.SetImageUrl("http://wx.qlogo.cn/mmopen/mz3Mk129TGDsZL3qND93cKC2JrXtKer8wdwHSnA1CnUaVZ6rLWoMTeFABMwv132BVEeWvPPpCMQBKt33k7vJBMwFnecrjwlia/0");
@@ -232,7 +232,7 @@ public class WechatOperateScript : MonoBehaviour {
 
             //配置下载地址 
             //customizeShareParams.SetUrl("https://fir.im/ccainiu");
-            customizeShareParams.SetUrl("https://fir.im/szwszw");
+            customizeShareParams.SetUrl("https://fir.im/seziwang");
             //配置分享logo
             // customizeShareParams.SetImageUrl("http://112.74.52.173/web/images/logo.jpg");
             customizeShareParams.SetImageUrl(APIS.webUrl + "shaiziwang.png");
