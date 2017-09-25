@@ -212,8 +212,8 @@ public class PlayerItemScript : MonoBehaviour
         if (GlobalDataScript.sendedOpenSZRequest == false)
         {
 			if (GlobalDataScript.getInstance ().gameStart) {
-				DesktopInput ();
-				if (Input.GetMouseButtonDown (1) || (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Moved)) {
+				//DesktopInput ();
+				if (Input.GetMouseButtonDown (1) || Input.touchCount > 0) {
 					#if !UNITY_EDITOR && ( UNITY_IOS || UNITY_ANDROID )
 					MobileInput(); 
 					#else
@@ -278,37 +278,48 @@ public class PlayerItemScript : MonoBehaviour
         return isGetUILayer;
     }
 
+	private bool isGetUILayer;
+	private bool isMove;
+
     private void MobileInput(){
-		if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)){
-            bool isGetUILayer = IsPointerUIObject(Input.mousePosition);
-			if (isGetUILayer) {
-                if (Input.GetTouch(0).phase == TouchPhase.Moved)
-                {
-                    Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-                    ke_img.transform.Translate(oldPosition.x, touchDeltaPosition.y, 0);
-                }
-                else if (Input.GetTouch(0).phase == TouchPhase.Ended)
-                {
-                    if (Input.touchCount > 0 && (avatarvo != null && (avatarvo.account.uuid == GlobalDataScript.loginResponseData.account.uuid ||
-                        avatarvo.account.id == GlobalDataScript.loginResponseData.account.uuid)))
-                    {
-                        if (ke_img.transform.localPosition.y >= 20 && GlobalDataScript.sendedOpenSZRequest == false)
-                        {
-                            sendOpenRequest();
-                        }
-                        ke_img.transform.localPosition = oldPosition;
-                    }
-                }
-            }
+
+		if (avatarvo != null && (avatarvo.account.uuid == GlobalDataScript.loginResponseData.account.uuid ||
+		    avatarvo.account.id == GlobalDataScript.loginResponseData.account.uuid)) 
+		{
+			if (Input.GetTouch(0).phase == TouchPhase.Began) 
+			{
+				isGetUILayer = IsPointerUIObject(Input.mousePosition);
+			}
+			else if (isGetUILayer && Input.GetTouch(0).phase == TouchPhase.Moved) 
+			{
+				Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+				//				ke_img.transform.Translate(oldPosition.x, touchDeltaPosition.y, 0);
+				ke_img.transform.Translate(0, touchDeltaPosition.y, 0);
+				isMove = true;
+			}else if (isGetUILayer && Input.GetTouch(0).phase == TouchPhase.Ended)
+			{
+				if (!isMove) {
+					return;
+				}
+				isGetUILayer = isMove = false;
+				if (ke_img.transform.localPosition.y >= 20 && GlobalDataScript.sendedOpenSZRequest == false)
+				{
+					bool isopensuc = sendOpenRequest();
+					if (!isopensuc) {
+						return;
+					}
+				}
+				ke_img.transform.localPosition = oldPosition;
+			}
 		}
 	}
 
-	private void sendOpenRequest(){
+	private bool sendOpenRequest(){
 
 		if (!GlobalDataScript.canOpenSZ)
 		{
 			TipsManagerScript.getInstance().setTips("自己不能开自己哦哦哦哦哦哦");
-			return;
+			return false;
 		}
 
 		//发送消息
@@ -332,6 +343,7 @@ public class PlayerItemScript : MonoBehaviour
 		{
 			SoundCtrl.getInstance().playSoundByAction("kai");
 		}
+		return true;
 	}
 
     public void updateScore(int totalScore)
