@@ -864,8 +864,8 @@ public class SeZiLogicScript : MonoBehaviour {
             vo.lianshen = int.Parse(player_arr[4 * i + 3]);
             vo.playerIndex = getIndex(vo.id);
             littleEndPlayerArr.Add(vo);
-
             playerItems[vo.playerIndex].updateScore(vo.totolscore);
+
 
             if (vo.score < 0)
             {
