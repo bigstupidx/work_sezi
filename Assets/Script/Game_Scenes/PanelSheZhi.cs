@@ -18,7 +18,12 @@ public class PanelSheZhi : MonoBehaviour {
 		yinxiao.onValueChanged.AddListener (onYinXiaoHandler);
 		zhendong.onValueChanged.AddListener (onZhendDongHandler);
 
-        if (isOpened == false && GlobalDataScript.getInstance().isInGame == false)
+        if (GlobalDataScript.getInstance().isInGame == false)
+        {
+            return;
+        }
+
+        if (isOpened == false)
         {
             isOpened = true;
             music.isOn = true;
