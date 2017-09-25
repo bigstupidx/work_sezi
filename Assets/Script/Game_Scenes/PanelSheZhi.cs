@@ -8,6 +8,8 @@ public class PanelSheZhi : MonoBehaviour {
 	public Toggle yinxiao;
 	public Toggle zhendong;
 
+    private static bool isOpened = false;
+
    // public Toggle yinxiaotoggle,yinliangtoggle;
 
 	void Start() {
@@ -16,37 +18,62 @@ public class PanelSheZhi : MonoBehaviour {
 		yinxiao.onValueChanged.AddListener (onYinXiaoHandler);
 		zhendong.onValueChanged.AddListener (onZhendDongHandler);
 
-		if (PlayerPrefs.HasKey ("setting_music") && PlayerPrefs.GetInt ("setting_music") == 1) {
-            music.gameObject.GetComponent<ToggleSet>().TogVulaChange();
-		} else {
-            music.gameObject.GetComponent<ToggleSet>().TogVulaChange();
-		}
+        if (isOpened == false)
+        {
+            isOpened = true;
+            music.isOn = true;
+            yuyin.isOn = true;
+            yinxiao.isOn = true;
+            zhendong.isOn = true;
+        }
+        else
+        {
+            if (GlobalDataScript.getInstance().music)
+            {
+                music.isOn = true;
+            }
+            else
+            {
+                music.isOn = false;                
+            }
 
-		if (PlayerPrefs.HasKey ("setting_yuyin") && PlayerPrefs.GetInt ("setting_yuyin") == 1) {
-            yuyin.gameObject.GetComponent<ToggleSet>().TogVulaChange();
-		} else {
-            yuyin.gameObject.GetComponent<ToggleSet>().TogVulaChange();
-		}
+            if (GlobalDataScript.getInstance().yuyin)
+            {
+                yuyin.isOn = true;
+            }
+            else
+            {
+                yuyin.isOn = false;                
+            }
 
-		if (PlayerPrefs.HasKey ("setting_yinxiao") && PlayerPrefs.GetInt ("setting_yinxiao") == 1) {
-			yinxiao.isOn = true;
-		} else {
-			yinxiao.isOn = false;
-		}
+            if (GlobalDataScript.getInstance().yinxiao)
+            {
+                yinxiao.isOn = true;
+            }
+            else
+            {
+                yinxiao.isOn = false;                
+            }
 
-		if (PlayerPrefs.HasKey ("setting_zhendong") && PlayerPrefs.GetInt ("setting_zhendong") == 1) {
-			zhendong.isOn = true;
-		} else {
-			zhendong.isOn = false;
-		}
-
-
-	}
+            if (GlobalDataScript.getInstance().zhendong)
+            {
+                zhendong.isOn = true;
+            }
+            else
+            {
+                zhendong.isOn = false;
+            }           
+        }
+        music.gameObject.GetComponent<ToggleSet>().TogVulaChange();
+        yuyin.gameObject.GetComponent<ToggleSet>().TogVulaChange();
+        zhendong.gameObject.GetComponent<ToggleSet>().TogVulaChange();
+        yinxiao.gameObject.GetComponent<ToggleSet>().TogVulaChange();
+    }
   
 	private void onMusicHandler(bool check){
 
         SoundCtrl.getInstance ().playSoundByActionButton (1);
-        print("check***********" + check);
+        //print("check***********" + check);
 		GlobalDataScript.getInstance ().music = check;
 		if (!check) {
 			SoundCtrl.getInstance ().StopaudioS ();

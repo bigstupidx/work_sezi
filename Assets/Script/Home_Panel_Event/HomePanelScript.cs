@@ -167,12 +167,12 @@ public class HomePanelScript : MonoBehaviour
             }
             else if (panelExitDialog == null)
             {
-				panelExitDialog = Instantiate(Resources.Load("Prefab/YueqinPanel/Panel_Exit")) as GameObject;
-                panelExitDialog.transform.parent = gameObject.transform;
-                panelExitDialog.transform.localScale = Vector3.one;
-                //panelCreateDialog.transform.localPosition = new Vector3 (200f,150f);
-                panelExitDialog.GetComponent<RectTransform>().offsetMax = new Vector2(0f, 0f);
-                panelExitDialog.GetComponent<RectTransform>().offsetMin = new Vector2(0f, 0f);
+				//panelExitDialog = Instantiate(Resources.Load("Prefab/YueqinPanel/Panel_Exit")) as GameObject;
+    //            panelExitDialog.transform.parent = gameObject.transform;
+    //            panelExitDialog.transform.localScale = Vector3.one;
+    //            panelCreateDialog.transform.localPosition = new Vector3 (200f,150f);
+    //            panelExitDialog.GetComponent<RectTransform>().offsetMax = new Vector2(0f, 0f);
+    //            panelExitDialog.GetComponent<RectTransform>().offsetMin = new Vector2(0f, 0f);
             }
         }
 

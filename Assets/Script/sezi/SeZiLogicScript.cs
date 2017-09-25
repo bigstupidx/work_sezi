@@ -1853,6 +1853,7 @@ public class SeZiLogicScript : MonoBehaviour {
         }
 
 	}
+
 }
 
 [Serializable]
