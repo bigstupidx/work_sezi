@@ -10,6 +10,7 @@ using System.Text;
 
 public class GlobalDataScript
 {
+    public bool isInGame = false;
 	public static bool hideChargeUI = false;
     public static bool isGoldQuickStar = false;
     public static bool canOpenSZ = false;
@@ -213,7 +214,6 @@ public class GlobalDataScript
 		currentBeiShu = 0;
         gameStart = false;
 		chageDesktop = false;
-        chageDesktop = false;
         sendGoldAutoExitRequest = false;
     }
 

@@ -146,6 +146,8 @@ public class SeZiLogicScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        GlobalDataScript.getInstance().isInGame = true;
+
         playerLocationList = new List<Vector2>();
         playerLocationList.Add(new Vector2 ( -459 , -12 ));
         playerLocationList.Add(new Vector2(-223, 80 ));
@@ -690,6 +692,7 @@ public class SeZiLogicScript : MonoBehaviour {
 		if (resultPanel != null) {
 			Destroy (resultPanel);
 		}
+        GlobalDataScript.getInstance().isInGame = false;
         GlobalDataScript.getInstance().reset();
         GlobalDataScript.loginResponseData.roomId = 0;
 		GlobalDataScript.roomVo = null;
@@ -1214,11 +1217,23 @@ public class SeZiLogicScript : MonoBehaviour {
         {
             return;
         }
+        int[] arr = new int[] { pai1, pai2, pai3, pai4, pai5 };
+        if (playerId == GlobalDataScript.loginResponseData.account.uuid || playerId == GlobalDataScript.loginResponseData.account.id)
+        {
+            gameStart_button.SetActive(false);
 
-        gameStart_button.SetActive(false);
-
-        GlobalDataScript.myPointsArr = new int[]{pai1,pai2,pai3,pai4,pai5};
-        playerItems[0].showPoint(GlobalDataScript.myPointsArr);
+            GlobalDataScript.myPointsArr = arr;
+            if (playerItems.Count > 0)
+            {
+                playerItems[0].showPoint(GlobalDataScript.myPointsArr);
+            }            
+        }
+        else
+        {
+            int index = getIndex(playerId);
+            playerItems[index].showPoint(arr);
+        }
+       
 		//playerItems [0].maskImg.transform.gameObject.SetActive (false);
 	}
 

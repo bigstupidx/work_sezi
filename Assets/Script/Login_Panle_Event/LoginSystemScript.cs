@@ -45,34 +45,11 @@ public class LoginSystemScript : MonoBehaviour {
         StartCoroutine(ConnectTime1(1f, 1));
 
 
-		if ((!PlayerPrefs.HasKey ("setting_music")) || (PlayerPrefs.GetInt ("setting_music") == 1)) {
-			GlobalDataScript.getInstance ().music = true;
-			SoundCtrl.getInstance ().StartaudioS ();
-		} else {
-			GlobalDataScript.getInstance ().music = false;
-			SoundCtrl.getInstance ().StopaudioS ();
-		}
-
-		if (!PlayerPrefs.HasKey ("setting_yuyin") || PlayerPrefs.GetInt ("setting_yuyin") == 1) {
-			GlobalDataScript.getInstance ().yuyin = true;
-			SoundCtrl.getInstance ().StartSound ();
-		} else {
-			GlobalDataScript.getInstance ().yuyin = true;
-		}
-
-		if (!PlayerPrefs.HasKey ("setting_yinxiao") || PlayerPrefs.GetInt ("setting_yinxiao") == 1) {
-			GlobalDataScript.getInstance ().yinxiao = true;
-			SoundCtrl.getInstance ().startSoundByAction ();
-		} else {
-			GlobalDataScript.getInstance ().yinxiao = false;
-		}
-
-		if (PlayerPrefs.HasKey ("setting_zhendong") || PlayerPrefs.GetInt ("setting_zhendong") == 1) {
-			SoundCtrl.getInstance ().StartaudioS ();
-			GlobalDataScript.getInstance ().zhendong = true;
-		} else {
-			GlobalDataScript.getInstance ().zhendong = false;
-		}
+        SoundCtrl.getInstance().StartaudioS();
+        SoundCtrl.getInstance().StartSound();
+        SoundCtrl.getInstance().startSoundByAction();
+        SoundCtrl.getInstance().StartaudioS();
+        
 
     }
 

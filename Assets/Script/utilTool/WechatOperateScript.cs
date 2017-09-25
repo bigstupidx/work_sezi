@@ -25,17 +25,28 @@ public class WechatOperateScript : MonoBehaviour {
 		}
 
 	}
-	
+
+
+    private GameObject panelExitDialog;
 
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            GameObject panelExitDialog = Instantiate(Resources.Load("Prefab/YueqinPanel/Panel_Exit")) as GameObject;
-            panelExitDialog.transform.parent = gameObject.transform;
-            panelExitDialog.transform.localScale = Vector3.one;
-            //panelCreateDialog.transform.localPosition = new Vector3 (200f,150f);
-            panelExitDialog.GetComponent<RectTransform>().offsetMax = new Vector2(0f, 0f);
-            panelExitDialog.GetComponent<RectTransform>().offsetMin = new Vector2(0f, 0f);
+            if (panelExitDialog == null)
+            {
+                panelExitDialog = Instantiate(Resources.Load("Prefab/YueqinPanel/Panel_Exit")) as GameObject;
+                panelExitDialog.transform.parent = gameObject.transform;
+                panelExitDialog.transform.localScale = Vector3.one;
+                //panelCreateDialog.transform.localPosition = new Vector3 (200f,150f);
+                panelExitDialog.GetComponent<RectTransform>().offsetMax = new Vector2(0f, 0f);
+                panelExitDialog.GetComponent<RectTransform>().offsetMin = new Vector2(0f, 0f);
+            }
+            else
+            {
+                Destroy(panelExitDialog);
+                panelExitDialog = null;
+            }
+           
         }        
     }
 
@@ -77,7 +88,7 @@ public class WechatOperateScript : MonoBehaviour {
 				loginvo.city = (string)data ["city"];
 				string sex = data ["sex"].ToString ();
 				loginvo.sex = int.Parse (sex);
-				loginvo.IP = GlobalDataScript.getInstance ().getIpAddress ();
+                loginvo.IP = "1.1.1.1";//GlobalDataScript.getInstance ().getIpAddress ();
 				String msg = JsonMapper.ToJson (loginvo);
 
 				CustomSocket.getInstance ().sendMsg (new LoginRequest (msg));
