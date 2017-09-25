@@ -302,7 +302,7 @@ public class PlayerItemScript : MonoBehaviour
 					return;
 				}
 				isGetUILayer = isMove = false;
-				if (ke_img.transform.localPosition.y >= 20 && GlobalDataScript.sendedOpenSZRequest == false)
+				if (Mathf.Abs(Input.mousePosition.y - oldPosition.y) >= 20 && GlobalDataScript.sendedOpenSZRequest == false)
 				{
 					bool isopensuc = sendOpenRequest();
 					if (!isopensuc) {
