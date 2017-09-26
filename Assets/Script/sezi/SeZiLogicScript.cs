@@ -174,24 +174,43 @@ public class SeZiLogicScript : MonoBehaviour {
 		GlobalDataScript.reEnterRoomData = null;
 
         glodJiabeiObj.SetActive(false);
-        roomRoundAndMarkObj.SetActive(true);
-        dichiAndDizhuObj.SetActive(false);
+        
+        
         if (GlobalDataScript.isGoldQuickStar || GlobalDataScript.roomVo.isGoldRoom)
         {
             flyTimes = GlobalDataScript.getInstance().getTime();
-            
-            //glodJiabeiObj.transform.DOLocalMove(new Vector3(492, glodJiabeiObj.transform.localPosition.y, glodJiabeiObj.transform.localPosition.z), 0.5f);
-            //glodJiabeiObj.SetActive(true);
-            //roomRoundAndMarkObj.SetActive(false);
-            //dichiAndDizhuObj.SetActive(true);
-
             gameStart_button.SetActive(false);
             roomRoundAndMarkObj.SetActive(false);
             inviteButton.SetActive(false);
         }
         onReadyClick();
 
-        
+		isAddToStage = true;
+
+		roomRoundAndMarkObj.SetActive(true);
+		if (GlobalDataScript.getInstance ().betNum > 0) {
+			dichiAndDizhuObj.SetActive (true);
+			gameStart_button.SetActive(false);
+			inviteButton.SetActive(false);
+			showQKImg (GlobalDataScript.getInstance ().betId);
+
+			jiaodianObj.SetActive (true);
+			jiaodianObj_num.text = GlobalDataScript.getInstance ().betNum.ToString ();
+			jiaodianObj_point.sprite = Resources.Load ("sizi/size_scene/point/point_" + GlobalDataScript.getInstance ().betPoint, typeof(Sprite)) as Sprite;
+
+
+			for (int i = 0; i < playerItems.Count; i++) {
+				playerItems [i].startGame (false);
+				if (playerItems [i].readyImg != null) {
+					playerItems [i].readyImg.gameObject.SetActive (false);
+				}
+			}
+
+		} else {
+			dichiAndDizhuObj.SetActive(false);
+		}
+
+		GlobalDataScript.getInstance ().betId = GlobalDataScript.getInstance ().betNum = GlobalDataScript.getInstance ().betPoint = 0;
 
         //TipsManagerScript.getInstance().setTips2("");
     }
@@ -303,8 +322,8 @@ public class SeZiLogicScript : MonoBehaviour {
 		//CommonEvent.getInstance().closeGamePanel += exitOrDissoliveRoom;
 		SocketEventHandle.getInstance().micInputNotice += micInputNotice;
 
-        SocketEventHandle.getInstance().offlineNotice += offlineNotice;
-        SocketEventHandle.getInstance().onlineNotice += onlineNotice;
+        //SocketEventHandle.getInstance().offlineNotice += offlineNotice;
+        //SocketEventHandle.getInstance().onlineNotice += onlineNotice;
 
     }
 
@@ -333,10 +352,16 @@ public class SeZiLogicScript : MonoBehaviour {
         }
 		for (int i = 0; i < playerItems.Count; i++) {
 			playerItems [i].startGame (false);
+			if (playerItems [i].readyImg != null) {
+				playerItems [i].readyImg.gameObject.SetActive (false);
+			}
 		}
         isMyTrun = false;
         npscripts.changeToGrayButtonState ();
 		npscripts.kuang_img.gameObject.SetActive (false);
+		inviteButton.SetActive (false);
+
+
 		if (who_bet_playerId == GlobalDataScript.loginResponseData.account.uuid) {
             //轮到自己,处理UI
             npscripts.turnMyCall();
@@ -417,6 +442,7 @@ public class SeZiLogicScript : MonoBehaviour {
 
 	private float avg_num1;
 	private bool isPutCard = false;
+	private bool isAddToStage = false;
 	//出牌的结果
 	public void betResponse(ClientResponse response) {
 		print ("betResponse:::" + response.message);
@@ -426,7 +452,16 @@ public class SeZiLogicScript : MonoBehaviour {
 		JsonData json = JsonMapper.ToObject(response.message);
         int put_num = Int32.Parse(json["key"].ToString());
 		int put_point = Int32.Parse(json["value"].ToString());
-        int uuid = Int32.Parse(json["uuid"].ToString());
+		int uuid = Int32.Parse(json["uuid"].ToString());
+		if (!isAddToStage) {
+			GlobalDataScript.getInstance ().betNum = put_num;
+			GlobalDataScript.getInstance ().betPoint = put_point;
+			GlobalDataScript.getInstance ().betId = uuid;
+			return;
+		}
+
+
+       
 		if (isPutCard == false) {
 			isPutCard = true;
 			showQKImg (uuid);
@@ -491,7 +526,7 @@ public class SeZiLogicScript : MonoBehaviour {
 
         //算平均个数     1:计算自己有几个   2:总数-自己个数/人数列表
         int myNums = 0;
-        if (!isGuanZhan)//观战模式
+		if (!isGuanZhan && GlobalDataScript.myPointsArr != null)//观战模式
         {
             for (int i = 0; i < GlobalDataScript.myPointsArr.Length; i++)
             {
@@ -504,15 +539,16 @@ public class SeZiLogicScript : MonoBehaviour {
                     myNums++;
                 }
             }
+			//人物信息显示除掉自己的，中间显示全部的
+			float avg_num1 = (put_num - myNums) / (GlobalDataScript.roomAvatarVoList.Count - 1);
+			float avg_num2 = put_num / GlobalDataScript.roomAvatarVoList.Count;
+
+			jiaodianObj_gailvinfo.text = "每人人均"+avg_num2+"个";
+			npscripts.gailv_txt.text = "其余人均" + avg_num1 + "个";
         }
-		//人物信息显示除掉自己的，中间显示全部的
-        float avg_num1 = (put_num - myNums) / (GlobalDataScript.roomAvatarVoList.Count - 1);
-		float avg_num2 = put_num / GlobalDataScript.roomAvatarVoList.Count;
 		jiaodianObj.SetActive (true);
 		jiaodianObj_num.text = put_num.ToString ();
 		jiaodianObj_point.sprite = Resources.Load ("sizi/size_scene/point/point_" + put_point, typeof(Sprite)) as Sprite;
-		jiaodianObj_gailvinfo.text = "每人人均"+avg_num2+"个";
-        npscripts.gailv_txt.text = "其余人均" + avg_num1 + "个";
     }
 
 	/*************************断线重连*********************************/

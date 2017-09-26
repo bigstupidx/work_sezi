@@ -202,7 +202,37 @@ public class HomePanelScript : MonoBehaviour
         SocketEventHandle.getInstance().SZ_Reconnect_Response += SZ_Reconnect_Response;
 
         SocketEventHandle.getInstance().szGetPointResponse += pickCard;
+
+
+		SocketEventHandle.getInstance().whoBetResponse += whoBetResponse;
+		SocketEventHandle.getInstance().betResponse += betResponse;
+		//SocketEventHandle.getInstance().StartGameNotice += startGame;
+		SocketEventHandle.getInstance().DizhuAndDizhu_response += DizhuAndDizhu_response;
     }
+
+	private void betResponse(ClientResponse response)
+	{
+		SocketEventHandle.getInstance().betResponse -= betResponse;
+		GlobalDataScript.gamePlayPanel.GetComponent<SeZiLogicScript>().betResponse(response);
+	}
+
+	private void DizhuAndDizhu_response(ClientResponse response)
+	{
+		SocketEventHandle.getInstance().DizhuAndDizhu_response -= DizhuAndDizhu_response;
+		GlobalDataScript.gamePlayPanel.GetComponent<SeZiLogicScript>().DizhuAndDizhu_response(response);
+	}
+
+	private void whoBetResponse(ClientResponse response)
+	{
+		SocketEventHandle.getInstance().whoBetResponse -= whoBetResponse;
+		GlobalDataScript.gamePlayPanel.GetComponent<SeZiLogicScript>().whoBetResponse(response);
+	}
+
+//	private void startGame(ClientResponse response)
+//	{
+//		SocketEventHandle.getInstance().StartGameNotice -= startGame;
+//		GlobalDataScript.gamePlayPanel.GetComponent<SeZiLogicScript>().startGame(response);
+//	}
 
     private void pickCard(ClientResponse response)
     {

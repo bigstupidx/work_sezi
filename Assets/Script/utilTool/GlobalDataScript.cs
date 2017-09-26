@@ -10,6 +10,11 @@ using System.Text;
 
 public class GlobalDataScript
 {
+
+	public int betNum = 0;
+	public int betPoint = 0;
+	public int betId = 0;
+
     public bool isInGame = false;
 	public static string downloadPath = "";
 	public static bool hideChargeUI = false;
@@ -216,6 +221,7 @@ public class GlobalDataScript
         gameStart = false;
 		chageDesktop = false;
         sendGoldAutoExitRequest = false;
+//		betId = betNum = betPoint = 0;
     }
 
     public void removeAvatorById(int playerId)
@@ -236,9 +242,9 @@ public class GlobalDataScript
     //把数字转换成W
     public string chageNumToW(int num)
     {
-        if (num >= 100000)
+        if (num >= 10000)
         {
-			float num1 = num / 100000f;
+			float num1 = num / 10000f;
 			string str1 = String.Format ("{0:N2}",num1);
 			return str1 + "W";
         }

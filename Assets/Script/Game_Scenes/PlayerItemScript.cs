@@ -635,9 +635,11 @@ public class PlayerItemScript : MonoBehaviour
     /**设置游戏玩家离线**/
     public void setPlayerOffline()
     {
-		if (GlobalDataScript.roomVo.isGoldRoom == false) {
-			offlineImage.gameObject.SetActive(true);
-		}        
+		if (!GlobalDataScript.roomVo.isGoldRoom) {
+			offlineImage.gameObject.SetActive (true);
+		} else {
+			offlineImage.gameObject.SetActive(false);
+		}
     }
 
     //显示聊天
