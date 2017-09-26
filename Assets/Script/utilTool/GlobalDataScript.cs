@@ -11,6 +11,7 @@ using System.Text;
 public class GlobalDataScript
 {
     public bool isInGame = false;
+	public static string downloadPath = "";
 	public static bool hideChargeUI = false;
     public static bool isGoldQuickStar = false;
     public static bool canOpenSZ = false;
@@ -237,9 +238,7 @@ public class GlobalDataScript
     {
         if (num >= 10000)
         {
-            float num1 = num / 10000;
-
-            return Math.Round(num1,2)+"W";
+			return num / 10000 + "W";
         }
         return num.ToString();
     }

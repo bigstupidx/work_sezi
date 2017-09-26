@@ -43,6 +43,8 @@ public class SeZiLogicScript : MonoBehaviour {
 	public Image jiaodianObj_point;
 	public Text jiaodianObj_num;
 	public Text jiaodianObj_gailvinfo;
+	private int serverDizhuNum;
+	private int serverDiChiNum;
 
 	public GameObject nextGameStartObj;//下次游戏开始的世界
 	public GameObject jingcaiObj;//竞猜的倒计时面板
@@ -357,44 +359,50 @@ public class SeZiLogicScript : MonoBehaviour {
         } else {
             //npscripts.kuang_img.gameObject.SetActive (false);
             //npscripts.canShowNumAndPoint = false;
-            playerItems[bet_index].startGame(true);
-            playerItems[bet_index].showBetCDAnimation();
-            if (!isGuanZhan)//不在观战中处理UI
-            {
-                //显示倍数抢开
-                m_currentBetTimes++;
-                int my_index = getMyIndexFromList();
-                int show_bei = 0;
-                if (GlobalDataScript.roomAvatarVoList.Count > 2)
-                {
-                    m_maxBei = avatarList.Count - 1;
-                    if (m_currentBetTimes >= avatarList.Count)
-                    {
-
-                    }
-                    else
-                    {
-                        if (!isFirstBet && m_maxBei > 1)
-                        {
-                            show_bei = Math.Abs(bet_index - my_index);
-                        }
-                    }
-                }
-                GlobalDataScript.currentBeiShu = show_bei;
-                if (show_bei > 1)
-                {
-                    //显示倍数
-                    npscripts.showQKBeiImg(show_bei, true);
-                }
-                else
-                {
-                    npscripts.showQKBeiImg(show_bei, false);
-                }
-            }
-            
+			showQKImg(who_bet_playerId);
         }
         isFirstBet = false;
     }
+
+	private void showQKImg(int uuid){
+		if (isPutCard) {
+			int bet_index = getIndex (uuid);
+			playerItems[bet_index].startGame(true);
+			playerItems[bet_index].showBetCDAnimation();
+			if (!isGuanZhan)//不在观战中处理UI
+			{
+				//显示倍数抢开
+				m_currentBetTimes++;
+				int my_index = getMyIndexFromList();
+				int show_bei = 0;
+				if (GlobalDataScript.roomAvatarVoList.Count > 2)
+				{
+					m_maxBei = avatarList.Count - 1;
+					if (m_currentBetTimes >= avatarList.Count)
+					{
+
+					}
+					else
+					{
+						if (!isFirstBet && m_maxBei > 1)
+						{
+							show_bei = Math.Abs(bet_index - my_index);
+						}
+					}
+				}
+				GlobalDataScript.currentBeiShu = show_bei;
+				if (show_bei > 1)
+				{
+					//显示倍数
+					npscripts.showQKBeiImg(show_bei, true);
+				}
+				else
+				{
+					npscripts.showQKBeiImg(show_bei, false);
+				}
+			}
+		}
+	}
 
 	//谁重新摇色子
 	public void whoReShockResponse(ClientResponse response) {
@@ -408,6 +416,7 @@ public class SeZiLogicScript : MonoBehaviour {
     }
 
 	private float avg_num1;
+	private bool isPutCard = false;
 	//出牌的结果
 	public void betResponse(ClientResponse response) {
 		print ("betResponse:::" + response.message);
@@ -418,6 +427,11 @@ public class SeZiLogicScript : MonoBehaviour {
         int put_num = Int32.Parse(json["key"].ToString());
 		int put_point = Int32.Parse(json["value"].ToString());
         int uuid = Int32.Parse(json["uuid"].ToString());
+		if (isPutCard == false) {
+			isPutCard = true;
+			showQKImg (uuid);
+		}
+
         //SeZiGlobalData.getMe().otherPutNum = put_num;
 		//SeZiGlobalData.getMe ().otherPutPoint = put_point;
 		if (put_point == 1) {
@@ -444,6 +458,19 @@ public class SeZiLogicScript : MonoBehaviour {
 		SoundCtrl.getInstance().playSound(put_num,put_point);
 
 		int index = getIndex(uuid);
+
+		//金币/积分扣除
+		if (playerItems [index].getAvatarVo () != null) {
+			if (GlobalDataScript.roomVo.isGoldRoom) {
+				playerItems [index].getAvatarVo ().account.gold -= serverDizhuNum;
+				playerItems [index].updateScore (playerItems [index].getAvatarVo ().account.gold);
+			} else {
+				playerItems [index].getAvatarVo ().scores -= serverDizhuNum;
+				playerItems [index].updateScore (playerItems [index].getAvatarVo ().scores);
+			}
+		}
+
+
 		//播放金币动画
         if (index < 3)
         {
@@ -847,13 +874,15 @@ public class SeZiLogicScript : MonoBehaviour {
 
         int totalNumPoints = 0;
 
+		AvatarVO avater = null;
+
         for (int i = 0; i < player_arr.Length / 4; i++)
         {
             LittleGameOverPlayerInfo vo = new LittleGameOverPlayerInfo();
             vo.id = int.Parse(player_arr[4 * i]);
             for (int m = 0; m < GlobalDataScript.roomAvatarVoList.Count; m++)
             {
-                AvatarVO avater = GlobalDataScript.roomAvatarVoList[m];
+				avater = GlobalDataScript.roomAvatarVoList[m];
                 if (avater.account.uuid == vo.id)
                 {
                     vo.userName = avater.account.nickname;
@@ -864,6 +893,15 @@ public class SeZiLogicScript : MonoBehaviour {
             
             vo.totolscore = int.Parse(player_arr[4*i+1]);
             vo.score = int.Parse(player_arr[4 * i + 2]);
+
+			if (avater != null) {
+				if (GlobalDataScript.roomVo.isGoldRoom) {
+					avater.account.gold = vo.totolscore;
+				} else {
+					avater.scores = vo.totolscore;
+				}
+			}
+
             vo.lianshen = int.Parse(player_arr[4 * i + 3]);
             vo.playerIndex = getIndex(vo.id);
             littleEndPlayerArr.Add(vo);
@@ -928,7 +966,7 @@ public class SeZiLogicScript : MonoBehaviour {
 
     private void gameEndHandler()
     {
-
+		isPutCard = false;
         for (int i = 0; i < playerItems.Count; i++)
         {
             playerItems[i].startGame(false);
@@ -979,6 +1017,9 @@ public class SeZiLogicScript : MonoBehaviour {
         dichiAndDizhuObj.SetActive(true);
         dizhuTxt.text = "底住：" + json["dizhu"].ToString();
         dichiTxt.text = "底池：" + json["dichi"].ToString();
+
+		serverDizhuNum = int.Parse (json["dizhu"].ToString());
+		serverDiChiNum = int.Parse (json["dichi"].ToString());
     }
 
     //房卡模式，当前轮结束
@@ -1163,6 +1204,14 @@ public class SeZiLogicScript : MonoBehaviour {
 	//竞猜的数据
 	private void szGameGuessResponse(ClientResponse response)
 	{
+
+		for (int i = 0; i < playerItems.Count; i++) {
+			if (playerItems [i].effect_kuang != null) {
+				playerItems [i].effect_kuang.reset (false);
+			}
+		}
+		npscripts.stopEffect ();
+
 		JsonData json = JsonMapper.ToObject(response.message);
 		print("szGameGuessResponse:::" + response.message);
 		int key = Int32.Parse (json ["key"].ToString ());

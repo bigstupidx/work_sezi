@@ -352,7 +352,11 @@ public class PlayerItemScript : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = totalScore + "";
+			if (GlobalDataScript.roomVo.isGoldRoom) {
+				scoreText.text = GlobalDataScript.getInstance().chageNumToW(totalScore);
+			} else {
+				scoreText.text = totalScore + "";
+			}
         }
     }
 

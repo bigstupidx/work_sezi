@@ -13,6 +13,11 @@ public class PanelUpdateApp : MonoBehaviour {
 	
 	}
 
+	public void onURLClick()
+	{
+		Application.OpenURL (GlobalDataScript.downloadPath);
+	}
+
     public void onClick()
     {
         Destroy(this);

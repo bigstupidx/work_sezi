@@ -47,6 +47,7 @@ public class CheckAppVersion : MonoBehaviour {
 		}
 		//0表示版本    1表示是否在审核	2表示审核的版本号
         string[] arr = www.text.Split(',');
+		GlobalDataScript.downloadPath = "https://fir.im/46yz";
 		if (arr [1].Equals ("APPCheck") && !arr [2].Equals (version_str)) {
             //GlobalDataScript.hideChargeUI = true;
             slider_p.value = 1;
@@ -54,11 +55,12 @@ public class CheckAppVersion : MonoBehaviour {
 		} else {
 			if (!arr[0].Equals(version_str))
 			{
-				#if UNITY_ANDROID
-				doLoadApk();
-				#elif UNITY_IPHONE
+//				#if UNITY_ANDROID
+//				doLoadApk();
+//				#elif UNITY_IPHONE
+//				doAlertIOS();
+//				#endif
 				doAlertIOS();
-				#endif
 			}
 			else
 			{
@@ -77,14 +79,14 @@ public class CheckAppVersion : MonoBehaviour {
     private void doLoadApk()
     {
         slider_p.value = 0;
-        string fileName = Application.persistentDataPath + "/SnapLingo.v6.7.1(671)-publish.apk";
-        string downURL = "http://img.snaplingo.com.cn/download/SnapLingo.v6.7.1(671)-publish.apk";
+        string fileName = Application.persistentDataPath + "/aaa.apk";
+        string downURL = "aaa.apk";
         StartCoroutine(DownloadFile(downURL, fileName, actionBytes, percentAciton, endAciton));
     }
 
     private void doAlertIOS()
     {
-
+		PanelUpdateApp.SetActive (true);
     }
 
     private IEnumerator DownloadFile(string url, string downLoadPathName,  Action<string, string, byte[]> actionBytes, Action<float> percentAciton, Action<bool, string, string> endAciton)
