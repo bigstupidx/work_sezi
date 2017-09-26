@@ -498,7 +498,7 @@ public class SeZiLogicScript : MonoBehaviour {
         
         npscripts.initNumList();
         isGameStart = true;
-        GlobalDataScript.getInstance().gameStart = true;
+        
         if (!GlobalDataScript.roomVo.isGoldRoom)
         {
             GlobalDataScript.surplusTimes--;
@@ -768,7 +768,7 @@ public class SeZiLogicScript : MonoBehaviour {
         }
 		npscripts.initNumList ();
 		isGameStart = true;
-        GlobalDataScript.getInstance().gameStart = true;
+        //GlobalDataScript.getInstance().gameStart = true;
         reShockImg.gameObject.SetActive(true);
 
         //        GlobalDataScript.roomAvatarVoList = avatarList;
@@ -1217,6 +1217,9 @@ public class SeZiLogicScript : MonoBehaviour {
         {
             return;
         }
+
+		GlobalDataScript.getInstance().gameStart = true;
+
         int[] arr = new int[] { pai1, pai2, pai3, pai4, pai5 };
         if (playerId == GlobalDataScript.loginResponseData.account.uuid || playerId == GlobalDataScript.loginResponseData.account.id)
         {

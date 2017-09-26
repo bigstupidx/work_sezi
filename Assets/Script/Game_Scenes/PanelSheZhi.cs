@@ -18,7 +18,7 @@ public class PanelSheZhi : MonoBehaviour {
 		yinxiao.onValueChanged.AddListener (onYinXiaoHandler);
 		zhendong.onValueChanged.AddListener (onZhendDongHandler);
 
-        if (GlobalDataScript.getInstance().isInGame == false)
+        if (GlobalDataScript.getInstance().isInGame)
         {
             return;
         }
@@ -76,7 +76,10 @@ public class PanelSheZhi : MonoBehaviour {
     }
   
 	private void onMusicHandler(bool check){
-
+		if (GlobalDataScript.getInstance().isInGame)
+		{
+			return;
+		}
         SoundCtrl.getInstance ().playSoundByActionButton (1);
         //print("check***********" + check);
 		GlobalDataScript.getInstance ().music = check;
@@ -88,6 +91,10 @@ public class PanelSheZhi : MonoBehaviour {
 	}
 
 	private void onYunYinHandler(bool check){
+		if (GlobalDataScript.getInstance().isInGame)
+		{
+			return;
+		}
 		GlobalDataScript.getInstance ().yuyin = check;
 		SoundCtrl.getInstance ().playSoundByActionButton (1);
 		if (!check) {
@@ -98,6 +105,10 @@ public class PanelSheZhi : MonoBehaviour {
 	}
 
 	private void onYinXiaoHandler(bool check){
+		if (GlobalDataScript.getInstance().isInGame)
+		{
+			return;
+		}
 		GlobalDataScript.getInstance ().yinxiao = check;
 		SoundCtrl.getInstance ().playSoundByActionButton (1);
 		if (!check) {
@@ -108,10 +119,14 @@ public class PanelSheZhi : MonoBehaviour {
 	}
 
 	private void onZhendDongHandler(bool check){
+		if (GlobalDataScript.getInstance().isInGame)
+		{
+			return;
+		}
 		GlobalDataScript.getInstance ().zhendong = check;
 		SoundCtrl.getInstance ().playSoundByActionButton (1);
 		if (check) {
-           // Handheld.Vibrate();
+           Handheld.Vibrate();
         }
 
 	}
