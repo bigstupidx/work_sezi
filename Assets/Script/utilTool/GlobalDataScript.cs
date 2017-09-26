@@ -236,9 +236,11 @@ public class GlobalDataScript
     //把数字转换成W
     public string chageNumToW(int num)
     {
-        if (num >= 10000)
+        if (num >= 100000)
         {
-			return num / 10000 + "W";
+			float num1 = num / 100000f;
+			string str1 = String.Format ("{0:N2}",num1);
+			return str1 + "W";
         }
         return num.ToString();
     }
