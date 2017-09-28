@@ -93,13 +93,9 @@ public class SeZiOtherPanelScripts : MonoBehaviour {
 	public void onChangeDesk() {
         GlobalDataScript.getInstance ().sendGoldAutoExitRequest = false;
 		GlobalDataScript.getInstance ().chageDesktop = true;
-		SZGoldChangeRoomReuquestVO vo = new SZGoldChangeRoomReuquestVO ();
-		vo.type = 0;
-		string sendMsg = JsonMapper.ToJson(vo);
-		CustomSocket.getInstance().sendMsg(new SZChangeRoomRequest(sendMsg));
 		SoundCtrl.getInstance().playSoundByActionButton(1);
         buttonListObj.SetActive(false);
-
+        setModeTypeText(2);
     }
 
     //设置当前模式

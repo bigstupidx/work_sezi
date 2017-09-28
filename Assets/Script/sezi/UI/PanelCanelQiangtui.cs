@@ -16,8 +16,6 @@ public class PanelCanelQiangtui : MonoBehaviour {
 
 		GlobalDataScript.getInstance ().sendGoldAutoExitRequest = false;
 		GlobalDataScript.getInstance ().chageDesktop = false;
-
-		CustomSocket.getInstance().sendMsg(new SZCancelQiangQuiteRequest());
 		
         onCloseClick();
     }

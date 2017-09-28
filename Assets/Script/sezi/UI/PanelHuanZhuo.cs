@@ -17,10 +17,10 @@ public class PanelHuanZhuo : MonoBehaviour {
 
         GlobalDataScript.getInstance ().sendGoldAutoExitRequest = false;
 		GlobalDataScript.getInstance ().chageDesktop = false;
-		SZGoldChangeRoomReuquestVO vo = new SZGoldChangeRoomReuquestVO ();
-		vo.type = 0;
-		string sendMsg = JsonMapper.ToJson(vo);
-		CustomSocket.getInstance().sendMsg(new SZChangeRoomRequest(sendMsg));
+		//SZGoldChangeRoomReuquestVO vo = new SZGoldChangeRoomReuquestVO ();
+		//vo.type = 0;
+		//string sendMsg = JsonMapper.ToJson(vo);
+		CustomSocket.getInstance().sendMsg(new SZChangeRoomRequest(""));
 		SoundCtrl.getInstance().playSoundByActionButton(1);
         onExitClick();
     }

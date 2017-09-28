@@ -219,7 +219,7 @@ public class GlobalDataScript
 		//myPointsArr = new int[]{ };
 		currentBeiShu = 0;
         gameStart = false;
-		chageDesktop = false;
+		//chageDesktop = false;
         sendGoldAutoExitRequest = false;
 //		betId = betNum = betPoint = 0;
     }

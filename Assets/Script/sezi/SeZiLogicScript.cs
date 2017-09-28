@@ -351,6 +351,14 @@ public class SeZiLogicScript : MonoBehaviour {
 	//轮到谁出牌
 	public void whoBetResponse(ClientResponse response) {
 
+        isGameStart = true;
+        GlobalDataScript.getInstance().gameStart = true;
+
+        if (playerItems == null || playerItems.Count <= 0)
+        {
+            return;
+        }
+
         print("whoBetResponse::"+ response.message);
         JsonData json = JsonMapper.ToObject(response.message);
 		who_bet_playerId = Int32.Parse(json["playerid"].ToString());;
@@ -459,7 +467,8 @@ public class SeZiLogicScript : MonoBehaviour {
 		print ("betResponse:::" + response.message);
 		isFirstBetResponse = false;
         reShockImg.gameObject.SetActive(false);
-
+        isGameStart = true;
+        GlobalDataScript.getInstance().gameStart = true;
 		JsonData json = JsonMapper.ToObject(response.message);
         int put_num = Int32.Parse(json["key"].ToString());
 		int put_point = Int32.Parse(json["value"].ToString());
@@ -993,20 +1002,33 @@ public class SeZiLogicScript : MonoBehaviour {
                     break;
                 }
             }
-
+            //先判断是不是顺子
+            List<int> list = new List<int>();
+            bool isShunZi = true;
             for (int m = 0; m < pointArr.Length; m++)
             {
-                if (pointArr[m] == little_over_openpoint)
+                if (list.IndexOf(pointArr[i]) != -1)
                 {
-                    totalNumPoints++;
+                    isShunZi = false;
                 }
-                if (!GlobalDataScript.isCallOne && pointArr[m] == 1)
-                {
-                    totalNumPoints++;
-                }
-                
+                list.Add(pointArr[i]);
             }
-
+            //不是顺子才算点数
+            if (!isShunZi)
+            {
+                for (int m = 0; m < pointArr.Length; m++)
+                {
+                    if (pointArr[m] == little_over_openpoint)
+                    {
+                        totalNumPoints++;
+                    }
+                    if (!GlobalDataScript.isCallOne && pointArr[m] == 1)
+                    {
+                        totalNumPoints++;
+                    }
+                }
+            }
+            
         }
 		little_over_game = true;
 
@@ -1903,12 +1925,14 @@ public class SeZiLogicScript : MonoBehaviour {
                             //显示获利多少
                             playerItems[playerIndex].showWinNum(littleEndPlayerArr[1].score);
                         }
-                        flyIndex = losePlayerIdsArr[0];
-                        losePlayerIdsArr.RemoveAt(0);
+                        if (losePlayerIdsArr.Count > 0)
+                        {
+                            flyIndex = losePlayerIdsArr[0];
+                            losePlayerIdsArr.RemoveAt(0);
+                            SeZiGlobalData.getMe().flyGoldOrPK(playerItems[flyIndex].goldImg.gameObject, playerItems[playerIndex].headerIcon.gameObject, playerItems[flyIndex].gameObject, 2, 5, false, false);
+                        }                        
                         //底池
                         SeZiGlobalData.getMe().flyGoldOrPK(needCloneObj, playerItems[playerIndex].headerIcon.gameObject, gameObject, 2, 6, false, false);
-
-                        SeZiGlobalData.getMe().flyGoldOrPK(playerItems[flyIndex].goldImg.gameObject, playerItems[playerIndex].headerIcon.gameObject, playerItems[flyIndex].gameObject, 2, 5, false, false);
                         
                     }
                     else
@@ -1940,8 +1964,16 @@ public class SeZiLogicScript : MonoBehaviour {
                               
 
                 if (GlobalDataScript.roomVo.isGoldRoom) {
-					
-				} else {
+
+                    //自动切换房间
+                    if (GlobalDataScript.getInstance().chageDesktop)
+                    {
+                        SZGoldChangeRoomReuquestVO vo = new SZGoldChangeRoomReuquestVO();
+                        CustomSocket.getInstance().sendMsg(new SZChangeRoomRequest(""));
+                    }
+                    GlobalDataScript.getInstance().chageDesktop = false;
+
+                } else {
 					resultPanel = PrefabManage.loadPerfab("Prefab/sezi/Panel_SZLGameOver");
 					resultPanel.GetComponent<SeZiLittleJSPanelScript>().setData(littleEndPlayerArr,false);
 				}
@@ -1983,6 +2015,7 @@ public class SeZiLogicScript : MonoBehaviour {
                 resultImg.gameObject.SetActive(false);
                 //隐藏结果
                 overResultObj.SetActive(false);
+
             }
         }
 

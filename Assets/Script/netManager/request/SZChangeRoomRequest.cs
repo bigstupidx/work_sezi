@@ -7,7 +7,7 @@ namespace AssemblyCSharp
 		public SZChangeRoomRequest (string msg)
 		{
 			headCode = APIS.SZ_ChangeRoom_Request;
-			messageContent = msg;
+			//messageContent = msg;
 		}
 	}
 }

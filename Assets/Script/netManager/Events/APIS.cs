@@ -191,7 +191,7 @@ namespace AssemblyCSharp
                                                         // int time  int statuss int uuid
 
         public const int Auto_play_Canel_request = 0x200055;//托管
-        public const int SZ_ChangeRoom_Request = 0x200052;	//切换房间请求
+        public const int SZ_ChangeRoom_Request = 0x200058;	//切换房间请求
 		public const int SZ_ChangeRoom_Response = 0x200053;	//切换房间回调
 
 		public const int SZ_ExitGoldRoom_Request = 0x200060;	//离开金币房间(房间游戏开始了)
