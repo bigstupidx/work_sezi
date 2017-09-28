@@ -12,31 +12,45 @@ public class SeZiLittleJSPanelScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        if (_list != null && _list.Count > 0)
-        {
-            bool show = false;
-            for (int i = 0; i < jList.Count; i++)
-            {
-                if (_showDYJ)
-                {
-                    show = (i == 0) ? true : false;
-                }
-                if (i < _list.Count && _list[i] != null)
-                {
-                    jList[i].setData(_list[i].headIcon, _list[i].userName, _list[i].score, _list[i].totolscore, show);
-                    jList[i].gameObject.SetActive(true);
-                }else
-                {
-                    jList[i].gameObject.SetActive(false);
-                }              
-            }
-        }
-	}
+        reAddDataToUI();
+    }
 
     public void setData(List<LittleGameOverPlayerInfo> list,bool showDYJ)
     {
         _list = list;
         _showDYJ = showDYJ;
+    }
+
+    public void reAddDataToUI()
+    {
+
+        int maxScore = 0;
+        if (_showDYJ)
+        {
+            for (int i = 0; i < _list.Count; i++)
+            {
+                maxScore = Mathf.Max(maxScore, _list[i].totolscore);
+            }
+        }
+       
+        //print("maxScore====" + maxScore);
+        if (_list != null && _list.Count > 0)
+        {
+            bool show = false;
+            for (int i = 0; i < jList.Count; i++)
+            {
+                if (i < _list.Count && _list[i] != null)
+                {
+                    show = _showDYJ == true ? _list[i].totolscore >= maxScore : false;
+                    jList[i].setData(_list[i].headIcon, _list[i].userName, _list[i].score, _list[i].totolscore, show);
+                    jList[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    jList[i].gameObject.SetActive(false);
+                }
+            }
+        }
     }
 
     public void onExitClick()

@@ -118,7 +118,7 @@ public class SeZiNPScripts : MonoBehaviour {
 
 		//赋值，然后切换筛子的个数图片
 		num_txt.text = startNum.ToString ();
-		point_img.GetComponent<Image>().sprite = Resources.Load ("sizi/size_scene/point/point_" + startNum, typeof(Sprite)) as Sprite;
+		point_img.GetComponent<Image>().sprite = Resources.Load ("sizi/size_scene/point/point_" + myClickPoint, typeof(Sprite)) as Sprite;
 
         showNumUI(startNum);
     }

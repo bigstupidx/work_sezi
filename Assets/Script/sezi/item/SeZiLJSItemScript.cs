@@ -11,10 +11,11 @@ public class SeZiLJSItemScript : MonoBehaviour {
     public Image dayingjiaImg;
 
     private string _headIcon;
+    private bool isShowDYJ;
 
     // Use this for initialization
     void Start () {
-        dayingjiaImg.gameObject.SetActive(false);
+        dayingjiaImg.gameObject.SetActive(isShowDYJ);
 	}
 	
 	// Update is called once per frame
@@ -24,6 +25,7 @@ public class SeZiLJSItemScript : MonoBehaviour {
 
     public void setData(string head,string uname,int cpot, int tpt, bool showDYJ)
     {
+        isShowDYJ = showDYJ;
         _headIcon = head;
         dayingjiaImg.gameObject.SetActive(showDYJ);
         nameText.text = uname;

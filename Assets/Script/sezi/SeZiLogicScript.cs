@@ -115,6 +115,7 @@ public class SeZiLogicScript : MonoBehaviour {
 	private bool isStart = false;
 
     private List<LittleGameOverPlayerInfo> littleEndPlayerArr;//小局胜利
+    private List<LittleGameOverPlayerInfo> allGameEndPlayerArr;//大局胜利
     private List<int> losePlayerIdsArr;//失败的玩家的数组
     private int little_over_openid;
     private int little_over_bopenid;
@@ -144,9 +145,12 @@ public class SeZiLogicScript : MonoBehaviour {
 
     private int game_dichi;
     private int game_dizhu;
+    private static bool isClose = false;
 
     // Use this for initialization
     void Start () {
+
+        isClose = false;
 
         GlobalDataScript.getInstance().isInGame = true;
 
@@ -159,7 +163,14 @@ public class SeZiLogicScript : MonoBehaviour {
 
         initUI ();
 
-		addListener();
+        if (allGameEndPlayerArr != null)
+        {
+            allGameEndPlayerArr.Clear();
+            allGameEndPlayerArr = null;
+        }
+        
+
+        addListener();
 
 		GlobalDataScript.isonLoginPage = false;
 		if (GlobalDataScript.getInstance().reConnect)
@@ -731,6 +742,7 @@ public class SeZiLogicScript : MonoBehaviour {
 
 			//destory
 			this.destoryAll();
+
 		} else {
 			int index = getIndex (playerid);
             print("leaveRoomResponse:::" + index + "   " + playerid);
@@ -744,6 +756,9 @@ public class SeZiLogicScript : MonoBehaviour {
     }
 		
 	private void destoryAll() {
+
+        isClose = true;
+
         game_dichi = game_dizhu = 0;
         isGameStart = false;
         if (avatarList != null) {
@@ -761,10 +776,10 @@ public class SeZiLogicScript : MonoBehaviour {
 		GlobalDataScript.roomVo = null;
 		SeZiGlobalData.getMe ().Clear ();
 		removeListener ();
-		exitOrDissoliveRoom ();
-		//Destroy (this);
-		//Destroy(gameObject);
 
+        //Destroy (this);
+        //Destroy(gameObject);
+        exitOrDissoliveRoom();
 		SoundCtrl.getInstance ().playBGM (1);
 
 		if (!GlobalDataScript.hideChargeUI) {
@@ -778,7 +793,15 @@ public class SeZiLogicScript : MonoBehaviour {
 			}
 		}
 
-	}
+        //Destroy(resultPanel);
+        //判断有没有大结算
+        if (allGameEndPlayerArr != null && allGameEndPlayerArr.Count > 0)
+        {
+            GameObject obj = PrefabManage.loadPerfab("Prefab/sezi/Panel_SZLGameOver");
+            obj.GetComponent<SeZiLittleJSPanelScript>().setData(allGameEndPlayerArr, true);
+            //resultPanel.GetComponent<SeZiLittleJSPanelScript>().reAddDataToUI();
+        }
+    }
 
 	//同步玩家数据/进入房间之类的
 	public void syncPlayerDataResponse(ClientResponse response) {
@@ -1049,7 +1072,7 @@ public class SeZiLogicScript : MonoBehaviour {
     public void DizhuAndDizhu_response(ClientResponse response)
     {
         JsonData json = JsonMapper.ToObject(response.message);
-        print("szGameAllOverResponse:::" + response.message);
+        print("DizhuAndDizhu_response:::" + response.message);
         dichiAndDizhuObj.SetActive(true);
         dizhuTxt.text = "底住：" + json["dizhu"].ToString();
         dichiTxt.text = "底池：" + json["dichi"].ToString();
@@ -1067,36 +1090,39 @@ public class SeZiLogicScript : MonoBehaviour {
             playerItems[i].startGame(false);
         }
 
+        if (allGameEndPlayerArr != null)
+        {
+            allGameEndPlayerArr.Clear();
+        }
+        else
+        {
+            allGameEndPlayerArr = new List<LittleGameOverPlayerInfo>();
+        }
         JsonData json = JsonMapper.ToObject(response.message);
         print("szGameAllOverResponse:::" + response.message);
-        string[] arr = response.message.Split(',');
+        string over_player = json["_gameoverAll"].ToString();
+        string[] player_arr = over_player.Split(',');
 
-        List<LittleGameOverPlayerInfo> list = new List<LittleGameOverPlayerInfo>();
-
-        for (int i = 0; i < arr.Length; i += 4)
+        for (int i = 0; i < player_arr.Length / 4; i++)
         {
             LittleGameOverPlayerInfo vo = new LittleGameOverPlayerInfo();
-            vo.id = int.Parse(json["id"].ToString());
-            vo.totolscore = int.Parse(json["totolscore"].ToString());
-            vo.score = int.Parse(json["score"].ToString());
-            for (int m = 0; m < GlobalDataScript.roomAvatarVoList.Count; m++)
-            {
-                AvatarVO avater = GlobalDataScript.roomAvatarVoList[i];
-                if (avater.account.uuid == vo.id || avater.account.id == vo.id)
-                {
-                    vo.userName = avater.account.nickname;
-                    vo.headIcon = avater.account.headicon;
-                    break;
-                }
-            }
-            list.Add(vo);
+            vo.headIcon = player_arr[4 * i];
+            vo.userName = player_arr[4 * i + 1];
+            vo.score = int.Parse(player_arr[4 * i + 2]);
+            vo.totolscore = int.Parse(player_arr[4 * i + 3]);
+            allGameEndPlayerArr.Add(vo);           
         }
-        list.Sort(delegate (LittleGameOverPlayerInfo x, LittleGameOverPlayerInfo y)
+        allGameEndPlayerArr.Sort(delegate (LittleGameOverPlayerInfo x, LittleGameOverPlayerInfo y)
         {
             return x.totolscore.CompareTo(y.totolscore);
         });
-        GameObject obj = PrefabManage.loadPerfab("Prefab/Panel_SZLGameOver");
-        obj.GetComponent<SeZiLittleJSPanelScript>().setData(littleEndPlayerArr,true);
+
+        Invoke("autoDestory", 3);          
+    }
+
+    private void autoDestory()
+    {
+        this.destoryAll();
     }
 
 	//聊天
@@ -1741,6 +1767,11 @@ public class SeZiLogicScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+
+        if (allGameEndPlayerArr!= null && allGameEndPlayerArr.Count > 0)
+        {
+            return;
+        }
 
 		SoundCtrl.getInstance ().refresh ();
 
