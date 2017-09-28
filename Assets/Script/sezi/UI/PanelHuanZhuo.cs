@@ -13,7 +13,7 @@ public class PanelHuanZhuo : MonoBehaviour {
     public void onCancelClick()
     {
 
-        SeZiOtherPanelScripts.getMe().setModeTypeText(2);
+        SeZiOtherPanelScripts.getMe().setModeTypeText(3);
 
         GlobalDataScript.getInstance ().sendGoldAutoExitRequest = false;
 		GlobalDataScript.getInstance ().chageDesktop = false;
