@@ -253,7 +253,7 @@ public class PlayerItemScript : MonoBehaviour
                     else
                     {
                         ke_img.transform.localPosition = oldPosition;
-                        TipsManagerScript.getInstance().setTips("自己不能开自己哦哦哦哦哦哦");
+                        TipsManagerScript.getInstance().setTips("很抱歉自己不能开自己哦");
                     }
                 }
 			} 

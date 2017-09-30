@@ -68,7 +68,11 @@ public class SeZiOtherPanelScripts : MonoBehaviour {
 					} else if (GlobalDataScript.getInstance().chageDesktop) {
 						//发送了自动换桌的请求
 						loadPerfab("Prefab/sezi/Panel_HuanZhuo");
-					}
+                    }
+                    else
+                    {
+                        TipsManagerScript.getInstance().setTips("游戏正在进行中不能离开");
+                    }
 				}
 			}
 			return;

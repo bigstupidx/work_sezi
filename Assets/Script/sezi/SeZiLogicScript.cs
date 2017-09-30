@@ -194,11 +194,15 @@ public class SeZiLogicScript : MonoBehaviour {
             roomRoundAndMarkObj.SetActive(false);
             inviteButton.SetActive(false);
         }
+        else
+        {
+            roomRoundAndMarkObj.SetActive(true);
+        }
         onReadyClick();
 
 		isAddToStage = true;
 
-		roomRoundAndMarkObj.SetActive(true);
+		
 		if (GlobalDataScript.getInstance ().betNum > 0) {
 			dichiAndDizhuObj.SetActive (true);
 			gameStart_button.SetActive(false);
@@ -352,7 +356,7 @@ public class SeZiLogicScript : MonoBehaviour {
 	public void whoBetResponse(ClientResponse response) {
 
         isGameStart = true;
-        GlobalDataScript.getInstance().gameStart = true;
+        //GlobalDataScript.getInstance().gameStart = true;
 
         if (playerItems == null || playerItems.Count <= 0)
         {
@@ -402,8 +406,9 @@ public class SeZiLogicScript : MonoBehaviour {
             //GlobalDataScript.canOpenSZ = false;
         } else {
             //npscripts.kuang_img.gameObject.SetActive (false);
-            //npscripts.canShowNumAndPoint = false;
-			showQKImg(who_bet_playerId);
+            //npscripts.canShowNumAndPoint = false
+            playerItems[bet_index].startGame(true);
+            showQKImg(who_bet_playerId);
         }
         isFirstBet = false;
     }
@@ -468,7 +473,7 @@ public class SeZiLogicScript : MonoBehaviour {
 		isFirstBetResponse = false;
         reShockImg.gameObject.SetActive(false);
         isGameStart = true;
-        GlobalDataScript.getInstance().gameStart = true;
+        //GlobalDataScript.getInstance().gameStart = true;
 		JsonData json = JsonMapper.ToObject(response.message);
         int put_num = Int32.Parse(json["key"].ToString());
 		int put_point = Int32.Parse(json["value"].ToString());
@@ -1044,8 +1049,16 @@ public class SeZiLogicScript : MonoBehaviour {
             ready_button.SetActive(true);
         }
 
-//        GameObject obj = PrefabManage.loadPerfab("Prefab/sezi/Panel_SZLGameOver");
-//        obj.GetComponent<SeZiLittleJSPanelScript>().setData(littleEndPlayerArr,false);
+        for (int i = 0; i < playerItems.Count; i++)
+        {
+            if (playerItems[i].effect_kuang != null)
+            {
+                playerItems[i].effect_kuang.reset(false);
+            }  
+        }
+
+        //        GameObject obj = PrefabManage.loadPerfab("Prefab/sezi/Panel_SZLGameOver");
+        //        obj.GetComponent<SeZiLittleJSPanelScript>().setData(littleEndPlayerArr,false);
     }
 
     private void gameEndHandler()
@@ -1572,8 +1585,7 @@ public class SeZiLogicScript : MonoBehaviour {
         }
         else
         {
-            roomRemark.text = "";
-            roomRoundNumber.text = "";
+            roomRoundAndMarkObj.SetActive(false);
         }
 		
 	}
