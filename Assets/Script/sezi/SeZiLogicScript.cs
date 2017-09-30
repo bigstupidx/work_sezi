@@ -408,7 +408,7 @@ public class SeZiLogicScript : MonoBehaviour {
             //npscripts.kuang_img.gameObject.SetActive (false);
             //npscripts.canShowNumAndPoint = false
             playerItems[bet_index].startGame(true);
-            showQKImg(who_bet_playerId);
+            //showQKImg(who_bet_playerId);
         }
         isFirstBet = false;
     }
