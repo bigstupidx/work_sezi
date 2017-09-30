@@ -438,18 +438,15 @@ public class SeZiLogicScript : MonoBehaviour {
 							show_bei = Math.Abs(bet_index - my_index);
 						}
 					}
+                    if (show_bei >= m_maxBei)
+                    {
+                        show_bei = m_maxBei;
+                    }
 				}
 				GlobalDataScript.currentBeiShu = show_bei;
-				if (show_bei > 1)
-				{
-					//显示倍数
-					npscripts.showQKBeiImg(show_bei, true);
-				}
-				else
-				{
-					npscripts.showQKBeiImg(show_bei, false);
-				}
-			}
+                //显示倍数
+                npscripts.showQKBeiImg(show_bei, show_bei > 1 ? true : false);
+            }
 		}
 	}
 
@@ -1299,19 +1296,20 @@ public class SeZiLogicScript : MonoBehaviour {
 
 		jingcaiPanel = PrefabManage.loadPerfab("Prefab/sezi/Panel_SZ_Guess");
 		jingcaiPanel.GetComponent<SeZiGuessPanelScripts> ().setJingCaiNum(jc_num,(int)avg_num1,total_money);
+
+        for (int i = 0; i < playerItems.Count; i++)
+        {
+            if (playerItems[i].effect_kuang != null)
+            {
+                playerItems[i].effect_kuang.reset(false);
+            }
+        }
+        npscripts.stopEffect();
     }
 
 	//竞猜的数据
 	private void szGameGuessResponse(ClientResponse response)
 	{
-
-		for (int i = 0; i < playerItems.Count; i++) {
-			if (playerItems [i].effect_kuang != null) {
-				playerItems [i].effect_kuang.reset (false);
-			}
-		}
-		npscripts.stopEffect ();
-
 		JsonData json = JsonMapper.ToObject(response.message);
 		print("szGameGuessResponse:::" + response.message);
 		int key = Int32.Parse (json ["key"].ToString ());
