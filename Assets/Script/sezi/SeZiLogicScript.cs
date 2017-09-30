@@ -1430,8 +1430,13 @@ public class SeZiLogicScript : MonoBehaviour {
 
 		GlobalDataScript.isonApplayExitRoomstatus = true;
 		//dissoliveRoomType = "1";
-		dissoDialog = PrefabManage.loadPerfab("Prefab/Panel_Apply_Exit");
-		dissoDialog.GetComponent<VoteScript>().iniUI("", avatarList);
+        if (dissoDialog==null)
+        {
+            dissoDialog = PrefabManage.loadPerfab("Prefab/Panel_Apply_Exit");
+            dissoDialog.GetComponent<VoteScript>().iniUI("", avatarList);
+        }
+		
+		
 	}
 
 	public void dissoliveRoomResultResponse(ClientResponse response)
