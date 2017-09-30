@@ -559,9 +559,12 @@ public class SeZiLogicScript : MonoBehaviour {
                     myNums++;
                 }
             }
-			//人物信息显示除掉自己的，中间显示全部的
-			float avg_num1 = (put_num - myNums) / (GlobalDataScript.roomAvatarVoList.Count - 1);
-			float avg_num2 = put_num / GlobalDataScript.roomAvatarVoList.Count;
+            //人物信息显示除掉自己的，中间显示全部的
+            int aa = put_num - myNums;
+            int bb = GlobalDataScript.roomAvatarVoList.Count - 1;
+            string avg_num1 = String.Format("{0:N1}", (float)aa / bb);
+            float cc = (float)put_num / GlobalDataScript.roomAvatarVoList.Count;
+            string avg_num2 = String.Format ("{0:N1}", cc);
 
 			jiaodianObj_gailvinfo.text = "每人人均"+avg_num2+"个";
 			npscripts.gailv_txt.text = "其余人均" + avg_num1 + "个";
@@ -1560,14 +1563,16 @@ public class SeZiLogicScript : MonoBehaviour {
         {
             GlobalDataScript.surplusTimes = roomvo.roundNumber;
         }
-		roomRemark.text = roomvo.roomId + "";
+		
         if (!GlobalDataScript.roomVo.isGoldRoom)
         {
+            roomRemark.text = roomvo.roomId + "";
             int leftTimes = (roomvo.roundNumber - GlobalDataScript.surplusTimes);
             roomRoundNumber.text = (leftTimes == 0 ? 1 : leftTimes) + "/" + roomvo.roundNumber;
         }
         else
         {
+            roomRemark.text = "";
             roomRoundNumber.text = "";
         }
 		
