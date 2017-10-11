@@ -919,6 +919,7 @@ public class SeZiLogicScript : MonoBehaviour {
     {
         GlobalDataScript.getInstance().reConnect = false;
 
+		GlobalDataScript.getInstance().gameStart = false;
         gameEndHandler();
 
         if (littleEndPlayerArr != null)
@@ -981,7 +982,7 @@ public class SeZiLogicScript : MonoBehaviour {
             playerItems[vo.playerIndex].updateScore(vo.totolscore);
 
 
-            if (vo.score < 0)
+            if (vo.score <= 0)
             {
                 losePlayerIdsArr.Add(vo.playerIndex);
             }
@@ -1053,6 +1054,8 @@ public class SeZiLogicScript : MonoBehaviour {
                 playerItems[i].effect_kuang.reset(false);
             }  
         }
+		npscripts.stopEffect ();
+
 
         //        GameObject obj = PrefabManage.loadPerfab("Prefab/sezi/Panel_SZLGameOver");
         //        obj.GetComponent<SeZiLittleJSPanelScript>().setData(littleEndPlayerArr,false);
@@ -1079,7 +1082,7 @@ public class SeZiLogicScript : MonoBehaviour {
         SeZiGlobalData.getMe().reset();
 
 
-        GlobalDataScript.getInstance().gameStart = false;
+        //GlobalDataScript.getInstance().gameStart = false;
         ready_button.SetActive(false);
         gameStart_button.SetActive(false);
         gameStart_button.SetActive(false);
@@ -1211,6 +1214,7 @@ public class SeZiLogicScript : MonoBehaviour {
         }
         ready_button.SetActive (false);
 		gameStart_button.SetActive (false);
+		GlobalDataScript.getInstance().gameStart = false;
 		gameEndHandler ();
 
 	}
@@ -1894,14 +1898,14 @@ public class SeZiLogicScript : MonoBehaviour {
 				{
 					if (GlobalDataScript.roomVo.isGoldRoom)
 					{
+						resultImg.sprite = Resources.Load("sizi/shibai", typeof(Sprite)) as Sprite;
 						hiddenFlyImg.sprite = Resources.Load("sizi/goldpk_doudou", typeof(Sprite)) as Sprite;
-						resultImg.sprite = Resources.Load("sizi/shenli", typeof(Sprite)) as Sprite;
 					}
 					else
 					{
-						resultImg.sprite = Resources.Load("sizi/shibai", typeof(Sprite)) as Sprite;
 						hiddenFlyImg.sprite = Resources.Load("sizi/fangkapk_flyicon", typeof(Sprite)) as Sprite;
 					}
+
 
 				}
 
@@ -1930,29 +1934,30 @@ public class SeZiLogicScript : MonoBehaviour {
                 }
                 else
                 {
-                    if (GlobalDataScript.roomAvatarVoList.Count == 2)
+					if (littleEndPlayerArr.Count == 2)
                     {
                         //==================玩家与玩家之间飞金币=====================
-                        if (littleEndPlayerArr[0].score > 0)
-                        {
-                            playerIndex = littleEndPlayerArr[0].playerIndex;
-                            //显示获利多少
-                            playerItems[playerIndex].showWinNum(littleEndPlayerArr[0].score);
-                        }
-                        else
-                        {
-                            playerIndex = littleEndPlayerArr[1].playerIndex;
-                            //显示获利多少
-                            playerItems[playerIndex].showWinNum(littleEndPlayerArr[1].score);
-                        }
+						if (littleEndPlayerArr [0].score > 0) {
+							playerIndex = littleEndPlayerArr [0].playerIndex;
+							//显示获利多少
+							playerItems [playerIndex].showWinNum (littleEndPlayerArr [0].score);
+						} else if (littleEndPlayerArr [1].score > 0) {
+							playerIndex = littleEndPlayerArr [1].playerIndex;
+							//显示获利多少
+							playerItems [playerIndex].showWinNum (littleEndPlayerArr [1].score);
+						} else {
+							playerIndex = -1;
+						}
                         if (losePlayerIdsArr.Count > 0)
                         {
                             flyIndex = losePlayerIdsArr[0];
                             losePlayerIdsArr.RemoveAt(0);
                             SeZiGlobalData.getMe().flyGoldOrPK(playerItems[flyIndex].goldImg.gameObject, playerItems[playerIndex].headerIcon.gameObject, playerItems[flyIndex].gameObject, 2, 5, false, false);
-                        }                        
-                        //底池
-                        SeZiGlobalData.getMe().flyGoldOrPK(needCloneObj, playerItems[playerIndex].headerIcon.gameObject, gameObject, 2, 6, false, false);
+                        }      
+						if (playerIndex != -1) {
+							//底池
+							SeZiGlobalData.getMe().flyGoldOrPK(needCloneObj, playerItems[playerIndex].headerIcon.gameObject, gameObject, 2, 6, false, false);
+						}                      
                         
                     }
                     else

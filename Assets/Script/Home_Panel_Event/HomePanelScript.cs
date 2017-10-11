@@ -279,9 +279,11 @@ public class HomePanelScript : MonoBehaviour
             int oldCout = int.Parse(cardCountText.text);
             cardCountText.text = response.message;
             GlobalDataScript.loginResponseData.account.roomcard = int.Parse(response.message);
-
-            contactInfoContent.text = "钻石" + (int.Parse(response.message) - oldCout) + "颗";
-            roomCardPanel.SetActive(true);
+			if (int.Parse(response.message) - oldCout != 0) {
+				contactInfoContent.text = "钻石" + (int.Parse(response.message) - oldCout) + "颗";
+				roomCardPanel.SetActive(true);
+			}
+            
         }
         //}
        

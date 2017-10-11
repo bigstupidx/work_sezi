@@ -218,7 +218,7 @@ public class GlobalDataScript
 		isCallOne = false;
 		//myPointsArr = new int[]{ };
 		currentBeiShu = 0;
-        gameStart = false;
+        //gameStart = false;
 		//chageDesktop = false;
         sendGoldAutoExitRequest = false;
 //		betId = betNum = betPoint = 0;
