@@ -16,6 +16,7 @@ public class PanelUpdateApp : MonoBehaviour {
 	public void onURLClick()
 	{
 		Application.OpenURL (GlobalDataScript.downloadPath);
+		onClick ();
 	}
 
     public void onClick()

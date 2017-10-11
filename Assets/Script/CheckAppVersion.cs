@@ -11,7 +11,7 @@ public class CheckAppVersion : MonoBehaviour {
     public Text progress_txt;
     public GameObject PanelUpdateApp;
 
-    private string version_str = "1.0.0";
+    private string version_str = "1.0.6";
 
 	// Use this for initialization
 	void Start () {
@@ -47,27 +47,31 @@ public class CheckAppVersion : MonoBehaviour {
 		}
 		//0表示版本    1表示是否在审核	2表示审核的版本号
         string[] arr = www.text.Split(',');
-		GlobalDataScript.downloadPath = "https://fir.im/46yz";
-		if (arr [1].Equals ("APPCheck") && !arr [2].Equals (version_str)) {
-            //GlobalDataScript.hideChargeUI = true;
-            slider_p.value = 1;
-            Invoke("destoryPanel", 1f);
-		} else {
-			if (!arr[0].Equals(version_str))
-			{
+		version_str = version_str.Replace (".","");
+		string server_version = arr [0].Replace (".","");
+		GlobalDataScript.downloadPath = arr [3];
+		if (int.Parse (server_version) > int.Parse (version_str)) {
+			if (arr [1].Equals ("APPCheck")) {
+				#if UNITY_ANDROID
+				GlobalDataScript.hideChargeUI = false;
+				doAlertIOS ();
+				#elif UNITY_IPHONE
+				//GlobalDataScript.hideChargeUI = true;
+				slider_p.value = 1;
+				Invoke("destoryPanel", 1f);
+				#endif
+
+			} else {
+				doAlertIOS ();
 //				#if UNITY_ANDROID
-//				doLoadApk();
+//					doLoadApk();
 //				#elif UNITY_IPHONE
-//				doAlertIOS();
+//					doAlertIOS();
 //				#endif
-				doAlertIOS();
 			}
-			else
-			{
-				destoryPanel();
-			}
+		} else {
+			destoryPanel();
 		}
-        
     }
 
     private void destoryPanel()
