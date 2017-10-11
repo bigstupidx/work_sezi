@@ -11,7 +11,7 @@ public class CheckAppVersion : MonoBehaviour {
     public Text progress_txt;
     public GameObject PanelUpdateApp;
 
-    private string version_str = "1.0.6";
+    private string version_str = "1.0.7";
 
 	// Use this for initialization
 	void Start () {
