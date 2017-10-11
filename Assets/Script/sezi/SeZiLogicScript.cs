@@ -1056,6 +1056,8 @@ public class SeZiLogicScript : MonoBehaviour {
         }
 		npscripts.stopEffect ();
 
+        serverDizhuNum = serverDiChiNum = 0;
+
 
         //        GameObject obj = PrefabManage.loadPerfab("Prefab/sezi/Panel_SZLGameOver");
         //        obj.GetComponent<SeZiLittleJSPanelScript>().setData(littleEndPlayerArr,false);
