@@ -70,8 +70,14 @@ public class SeZiBuyZhuan : MonoBehaviour {
         {
             if (GlobalDataScript.loginResponseData.account.roomcard < needMoneyNum)
             {
-				PrefabManage.loadPerfab("Prefab/sezi/Panel_ContactService");
+                //PrefabManage.loadPerfab("Prefab/sezi/Panel_ContactService");
                 //PrefabManage.loadPerfab("Prefab/YueqinPanel/Panel_Shouchong");
+
+                SZChargeRequestVO vo = new SZChargeRequestVO();
+                vo.money = price.text;
+                string msg = JsonMapper.ToJson(vo);
+                CustomSocket.getInstance().sendMsg(new SZChargeRequest(msg));
+
                 return;
             }
             GameObject obj = PrefabManage.loadPerfab("Prefab/sezi/PanelTipBuy");
@@ -79,8 +85,12 @@ public class SeZiBuyZhuan : MonoBehaviour {
         }
         else
         {
+            SZChargeRequestVO vo = new SZChargeRequestVO();
+            vo.money = price.text;
+            string msg = JsonMapper.ToJson(vo);
+            CustomSocket.getInstance().sendMsg(new SZChargeRequest(msg));
             //充值
-			PrefabManage.loadPerfab("Prefab/sezi/Panel_ContactService");
+            //PrefabManage.loadPerfab("Prefab/sezi/Panel_ContactService");
         }
     }
 

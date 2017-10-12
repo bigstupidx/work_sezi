@@ -96,6 +96,7 @@ namespace AssemblyCSharp
         public ServerCallBackEvent DizhuAndDizhu_response;//底池和底住
         public ServerCallBackEvent SZ_Reconnect_Response;//断线重连
         public ServerCallBackEvent rank_response;//断线重连
+        public ServerCallBackEvent SZChargeResponse;//充值回调
 
         private List<ClientResponse> callBackResponseList;
 
@@ -541,6 +542,13 @@ namespace AssemblyCSharp
                     if (rank_response != null)
                     {
                         rank_response(response);
+                    }
+                    break;
+
+                case APIS.SZ_Charge_Response:
+                    if (SZChargeResponse != null)
+                    {
+                        SZChargeResponse(response);
                     }
                     break;
             }

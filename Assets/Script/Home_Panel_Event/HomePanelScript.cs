@@ -208,9 +208,20 @@ public class HomePanelScript : MonoBehaviour
 		SocketEventHandle.getInstance().betResponse += betResponse;
 		//SocketEventHandle.getInstance().StartGameNotice += startGame;
 		SocketEventHandle.getInstance().DizhuAndDizhu_response += DizhuAndDizhu_response;
+
+        SocketEventHandle.getInstance().SZChargeResponse += SZChargeResponse;
     }
 
-	private void betResponse(ClientResponse response)
+    private void SZChargeResponse(ClientResponse response)
+    {
+        JsonData json = JsonMapper.ToObject(response.message);
+        string orderInfo = json["olderInfo"].ToString();
+        Debug.LogError("chargeResponse:::" + orderInfo);
+
+
+    }
+
+    private void betResponse(ClientResponse response)
 	{
 		SocketEventHandle.getInstance().betResponse -= betResponse;
 		GlobalDataScript.gamePlayPanel.GetComponent<SeZiLogicScript>().betResponse(response);
@@ -244,6 +255,7 @@ public class HomePanelScript : MonoBehaviour
 
     public void removeListener()
     {
+        SocketEventHandle.getInstance().SZChargeResponse -= SZChargeResponse;
         SocketEventHandle.getInstance().cardChangeNotice -= cardChangeNotice;
         CommonEvent.getInstance().DisplayBroadcast -= gameBroadcastNotice;
     //    SocketEventHandle.getInstance().contactInfoResponse -= contactInfoResponse;

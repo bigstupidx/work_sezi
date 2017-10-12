@@ -216,6 +216,8 @@ namespace AssemblyCSharp
         public const int SZ_Reconnect_Response = 0x200024;//断线重连
         // int roomid  0没有房间   否则有房间
 
+        public const int SZ_Charge_Request = 0x200070;//充值
+        public const int SZ_Charge_Response = 0x200071;//充值
 
     }
 
