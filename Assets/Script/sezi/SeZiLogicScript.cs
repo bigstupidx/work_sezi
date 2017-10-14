@@ -477,6 +477,7 @@ public class SeZiLogicScript : MonoBehaviour {
 		if (put_point == 1) {
 			GlobalDataScript.isCallOne = true;
 		}
+
 		int uuid = Int32.Parse(json["uuid"].ToString());
 		if (!isAddToStage) {
 			GlobalDataScript.getInstance ().betNum = put_num;
@@ -512,6 +513,15 @@ public class SeZiLogicScript : MonoBehaviour {
             GlobalDataScript.canOpenSZ = false;
             npscripts.stopEffect();
         }
+
+		if (put_num >= 36) {//直接开牌
+			if (GlobalDataScript.canOpenSZ)
+			{
+				CustomSocket.getInstance().sendMsg(new SEOpenPlayerRequest());
+				return;
+			}
+		}
+
         //播放声音
 		SoundCtrl.getInstance().playSound(put_num,put_point);
 
@@ -1543,11 +1553,12 @@ public class SeZiLogicScript : MonoBehaviour {
         {
             if (avatarList[i].account.uuid == avatar.account.uuid)
             {
-                avatarList.Remove(avatarList[i]);
+				avatarList.RemoveAt (i);
                 avatarList.Insert(i, avatar);
 
-                GlobalDataScript.roomAvatarVoList.Remove(avatarList[i]);
-                GlobalDataScript.roomAvatarVoList.Insert(i, avatar);
+				//GlobalDataScript.roomAvatarVoList.RemoveAt(i);
+				GlobalDataScript.getInstance().removeAvatorById(avatar.account.uuid);
+				GlobalDataScript.roomAvatarVoList.Add (avatar);
 
                 updateAvatorData(avatar);
                 return;
