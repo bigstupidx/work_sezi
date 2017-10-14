@@ -107,6 +107,9 @@ public class SeZiNPScripts : MonoBehaviour {
     public void initNumList()
     {
 		int startNum = GlobalDataScript.roomAvatarVoList.Count + 1;
+
+		print ("initNumList::::length===" + GlobalDataScript.roomAvatarVoList.Count);
+
 		myClickNum = startNum;
 		myClickPoint = 2;
 

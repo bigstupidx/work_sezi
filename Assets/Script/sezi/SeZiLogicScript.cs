@@ -474,6 +474,9 @@ public class SeZiLogicScript : MonoBehaviour {
 		JsonData json = JsonMapper.ToObject(response.message);
         int put_num = Int32.Parse(json["key"].ToString());
 		int put_point = Int32.Parse(json["value"].ToString());
+		if (put_point == 1) {
+			GlobalDataScript.isCallOne = true;
+		}
 		int uuid = Int32.Parse(json["uuid"].ToString());
 		if (!isAddToStage) {
 			GlobalDataScript.getInstance ().betNum = put_num;
@@ -491,9 +494,7 @@ public class SeZiLogicScript : MonoBehaviour {
 
         //SeZiGlobalData.getMe().otherPutNum = put_num;
 		//SeZiGlobalData.getMe ().otherPutPoint = put_point;
-		if (put_point == 1) {
-            GlobalDataScript.isCallOne = true;
-		}
+
 		npscripts.updateNumPosAndPoint (put_num,put_point);
 
         if (uuid != GlobalDataScript.loginResponseData.account.uuid)
@@ -853,7 +854,7 @@ public class SeZiLogicScript : MonoBehaviour {
 	public void startGame(ClientResponse response)
 	{
         print ("startGame====================");
-
+		GlobalDataScript.isCallOne = false;
         inviteButton.SetActive(false);
 
         GlobalDataScript.getInstance().reConnect = false;
@@ -920,7 +921,7 @@ public class SeZiLogicScript : MonoBehaviour {
         GlobalDataScript.getInstance().reConnect = false;
 
 		GlobalDataScript.getInstance().gameStart = false;
-        gameEndHandler();
+        
 
         if (littleEndPlayerArr != null)
         {
@@ -1058,6 +1059,7 @@ public class SeZiLogicScript : MonoBehaviour {
 
         serverDizhuNum = serverDiChiNum = 0;
 
+		//gameEndHandler();
 
         //        GameObject obj = PrefabManage.loadPerfab("Prefab/sezi/Panel_SZLGameOver");
         //        obj.GetComponent<SeZiLittleJSPanelScript>().setData(littleEndPlayerArr,false);
@@ -1355,7 +1357,7 @@ public class SeZiLogicScript : MonoBehaviour {
 		JsonData json = JsonMapper.ToObject(response.message);
 		print ("pickCard:::"+ response.message);
 		int playerId = int.Parse(json ["uuid"].ToString ());
-
+		GlobalDataScript.isCallOne = false;
         //if (who_rebet_playerId != 0 || who_rebet_playerId != playerId)
         //{
         //    return;
@@ -1907,10 +1909,8 @@ public class SeZiLogicScript : MonoBehaviour {
 					{
 						hiddenFlyImg.sprite = Resources.Load("sizi/fangkapk_flyicon", typeof(Sprite)) as Sprite;
 					}
-
-
 				}
-
+				gameEndHandler();
                 showResultImgTime = 200;
                 little_over_game = false;
                 

@@ -215,7 +215,7 @@ public class GlobalDataScript
 	public void reset() {
 		canOpenSZ = false;
 		sendedOpenSZRequest = false;
-		isCallOne = false;
+		//isCallOne = false;
 		//myPointsArr = new int[]{ };
 		currentBeiShu = 0;
         //gameStart = false;
