@@ -854,6 +854,16 @@ public class SeZiLogicScript : MonoBehaviour {
 	public void startGame(ClientResponse response)
 	{
         print ("startGame====================");
+		if (GlobalDataScript.roomVo.isGoldRoom) {
+			for (int i = 0; i < playerItems.Count; i++) {
+				if (playerItems [i].getAvatarVo () != null) {
+					int index = getIndex(playerItems[i].getUuid());
+					playerItems [index].getAvatarVo ().account.gold -= 100;
+					playerItems [index].updateScore (playerItems [index].getAvatarVo ().account.gold);
+				}
+			}
+		}
+
 		GlobalDataScript.isCallOne = false;
         inviteButton.SetActive(false);
 
