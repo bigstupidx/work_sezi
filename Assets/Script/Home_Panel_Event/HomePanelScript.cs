@@ -7,9 +7,14 @@ using System.Collections.Generic;
 using System.Threading;
 using DG.Tweening;
 using LitJson;
+using System.Runtime.InteropServices;
 
 public class HomePanelScript : MonoBehaviour
 {
+
+	[DllImport("__Internal")]  
+	private static extern void iOSAliyPay(string httpURL);  
+
     public Image headIconImg;//头像路径
                              //public Image tipHeadIcon;
     public Text noticeText;
@@ -216,10 +221,27 @@ public class HomePanelScript : MonoBehaviour
     {
         JsonData json = JsonMapper.ToObject(response.message);
         string orderInfo = json["olderInfo"].ToString();
-        Debug.LogError("chargeResponse:::" + orderInfo);
+		#if UNITY_IPHONE  
+		doIOSH5AliPay(orderInfo);
+		#elif UNITY_ANDROID  
+		doAndroidH5AliPay(orderInfo);
+		#endif
+		Debug.LogError ("Sorry I don't know");
+	}
 
+	private void doAndroidH5AliPay(string orderURL){
+		// Android的Java接口  
+		Debug.LogError ("doAndroidH5AliPay h5AilyPay===start");
+		AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+		jo.Call("h5AilyPay", orderURL);
+	}
 
-    }
+	private void doIOSH5AliPay(string orderURL){
+		Debug.LogError ("doIOSH5AliPay iOSAliyPay===start");
+		iOSAliyPay(orderURL);
+	}
+
 
     private void betResponse(ClientResponse response)
 	{
