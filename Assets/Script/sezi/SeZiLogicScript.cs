@@ -868,7 +868,8 @@ public class SeZiLogicScript : MonoBehaviour {
 			for (int i = 0; i < playerItems.Count; i++) {
 				if (playerItems [i].getAvatarVo () != null) {
 					int index = getIndex(playerItems[i].getUuid());
-					playerItems [index].getAvatarVo ().account.gold -= 100;
+                    int cost = GlobalDataScript.getInstance().enterBeiRoomType == 1 ? 100 : 500;
+					playerItems [index].getAvatarVo ().account.gold -= cost;
 					playerItems [index].updateScore (playerItems [index].getAvatarVo ().account.gold);
 				}
 			}

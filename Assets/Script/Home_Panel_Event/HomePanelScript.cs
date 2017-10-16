@@ -112,6 +112,7 @@ public class HomePanelScript : MonoBehaviour
     {
 		//int roomtype  1--200   2--1000
         GlobalDataScript.isGoldQuickStar = true;
+        GlobalDataScript.getInstance().enterBeiRoomType = beishu;
         SZQuickJoinRoomRequestVO vo = new SZQuickJoinRoomRequestVO();
         vo.roomtype = beishu;
         string msg = JsonMapper.ToJson(vo);

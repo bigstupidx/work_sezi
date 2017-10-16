@@ -14,6 +14,7 @@ public class GlobalDataScript
 	public int betNum = 0;
 	public int betPoint = 0;
 	public int betId = 0;
+    public int enterBeiRoomType = 1;
 
     public bool isInGame = false;
 	public static string downloadPath = "";

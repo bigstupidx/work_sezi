@@ -22,6 +22,21 @@
 
     <application
     	android:name="com.mob.MobApplication">
+      
+        <!--
+          调用ane
+        -->
+        <activity android:name="com.daru.sezi.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- 一定要加上这句 -->
+            <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+        </activity>
+        
+
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
